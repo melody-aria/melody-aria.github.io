@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22" # 建议使用你本地的 Node.js 主版本
-          cache: 'npm'
+          cache: 'pnpm'
 
       # 步骤 3: 安装依赖
       - name: Install dependencies
