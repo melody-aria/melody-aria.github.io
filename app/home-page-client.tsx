@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import Link from "next/link"
 import Image from "next/image"
@@ -31,7 +31,13 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
   const [imageSrc, setImageSrc] = useState("");
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [selectedTag, setSelectedTag] = useState(null);
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+
+  // 确保组件在客户端挂载后才渲染动态内容
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const categories = [
     { name: "全部", icon: getCategoryIcon("全部") },
@@ -69,62 +75,321 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
   };
 
   return (
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-emerald-50 via-sky-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-      {/* 动态背景 - 月光音乐主题 */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* 夜空渐变背景 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/20 via-purple-100/15 to-blue-100/25 dark:from-slate-900/50 dark:via-indigo-900/40 dark:to-purple-900/45"></div>
-        
-        {/* 月亮 */}
-        <div className="absolute top-16 right-20 w-24 h-24 bg-gradient-radial from-yellow-200/80 via-yellow-100/60 to-transparent dark:from-yellow-100/70 dark:via-yellow-50/50 dark:to-transparent rounded-full animate-moon-glow shadow-2xl shadow-yellow-200/30"></div>
-        
-        {/* 月光光束 */}
-        <div className="absolute top-20 right-16 w-1 h-40 bg-gradient-to-b from-yellow-200/40 to-transparent dark:from-yellow-100/30 dark:to-transparent animate-moonbeam rotate-12"></div>
-        <div className="absolute top-18 right-24 w-1 h-36 bg-gradient-to-b from-yellow-200/30 to-transparent dark:from-yellow-100/20 dark:to-transparent animate-moonbeam rotate-45" style={{animationDelay: '1s'}}></div>
-         <div className="absolute top-22 right-12 w-1 h-32 bg-gradient-to-b from-yellow-200/35 to-transparent dark:from-yellow-100/25 dark:to-transparent animate-moonbeam -rotate-12" style={{animationDelay: '2s'}}></div>
-        
-        {/* 月光中的音符 */}
-         <div className="absolute top-28 right-32 text-3xl text-yellow-300/60 dark:text-yellow-200/50 animate-moon-music">♪</div>
-         <div className="absolute top-40 right-28 text-4xl text-yellow-400/60 dark:text-yellow-300/50 animate-moon-music" style={{animationDelay: '0.8s'}}>♫</div>
-         <div className="absolute top-52 right-36 text-2xl text-yellow-200/60 dark:text-yellow-100/50 animate-moon-music" style={{animationDelay: '1.6s'}}>♬</div>
+        <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+       {/* 增强的动态背景效果 */}
+       <div className="fixed inset-0 overflow-hidden pointer-events-none">
+         {/* 背景层 */}
+         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/20 via-slate-800/15 to-slate-900/20 dark:from-slate-950/80 dark:via-slate-900/70 dark:to-slate-950/80" />
          
-         {/* 飘散的音符 */}
-         <div className="absolute top-20 left-10 text-4xl text-blue-300/50 dark:text-blue-200/40 animate-float-music">♪</div>
-         <div className="absolute top-32 left-1/4 text-5xl text-indigo-300/50 dark:text-indigo-200/40 animate-moon-drift" style={{animationDelay: '1s'}}>♫</div>
-         <div className="absolute bottom-40 left-1/3 text-3xl text-purple-300/50 dark:text-purple-200/40 animate-float-music" style={{animationDelay: '2s'}}>♬</div>
-         <div className="absolute top-1/2 left-20 text-4xl text-cyan-300/50 dark:text-cyan-200/40 animate-moon-drift" style={{animationDelay: '3s'}}>♪</div>
-         <div className="absolute bottom-20 left-10 text-5xl text-teal-300/50 dark:text-teal-200/40 animate-float-music" style={{animationDelay: '4s'}}>♫</div>
-         
-         {/* 月光波纹 */}
-         <div className="absolute top-1/3 left-1/4 w-40 h-40 border-2 border-yellow-200/25 dark:border-yellow-100/20 rounded-full animate-moonlight-ripple"></div>
-         <div className="absolute bottom-1/3 right-1/3 w-32 h-32 border-2 border-yellow-300/25 dark:border-yellow-200/20 rounded-full animate-moonlight-ripple" style={{animationDelay: '1.5s'}}></div>
-         <div className="absolute top-1/2 left-1/2 w-48 h-48 border-2 border-yellow-100/20 dark:border-yellow-50/15 rounded-full animate-moonlight-ripple" style={{animationDelay: '3s'}}></div>
-         
-         {/* 星光音符轨迹 */}
-         <div className="absolute top-1/4 right-1/2 text-2xl text-yellow-300/70 animate-starlight-trail">✦♪</div>
-         <div className="absolute bottom-1/2 left-2/3 text-2xl text-yellow-200/70 animate-starlight-trail" style={{animationDelay: '2s'}}>✧♫</div>
-         <div className="absolute top-2/3 right-1/4 text-2xl text-yellow-400/70 animate-starlight-trail" style={{animationDelay: '4s'}}>✦♬</div>
-         
-         {/* 月光五线谱 */}
-         <div className="absolute bottom-1/4 left-1/3 w-40">
-           <div className="w-full h-px bg-yellow-200/30 dark:bg-yellow-100/20 animate-moonlight-staff"></div>
-           <div className="w-full h-px bg-yellow-200/30 dark:bg-yellow-100/20 animate-moonlight-staff mt-3" style={{animationDelay: '0.6s'}}></div>
-           <div className="w-full h-px bg-yellow-200/30 dark:bg-yellow-100/20 animate-moonlight-staff mt-3" style={{animationDelay: '1.2s'}}></div>
-           <div className="w-full h-px bg-yellow-200/30 dark:bg-yellow-100/20 animate-moonlight-staff mt-3" style={{animationDelay: '1.8s'}}></div>
-           <div className="w-full h-px bg-yellow-200/30 dark:bg-yellow-100/20 animate-moonlight-staff mt-3" style={{animationDelay: '2.4s'}}></div>
-         </div>
-         
-         {/* 月光光晕 */}
-         <div className="absolute top-1/6 right-1/6 w-96 h-96 bg-gradient-radial from-yellow-200/15 via-yellow-100/8 to-transparent dark:from-yellow-100/12 dark:via-yellow-50/6 dark:to-transparent rounded-full animate-pulse"></div>
-         <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-gradient-radial from-indigo-200/10 via-purple-100/5 to-transparent dark:from-indigo-100/8 dark:via-purple-50/4 dark:to-transparent rounded-full animate-pulse" style={{animationDelay: '3s'}}></div>
-         
-         {/* 夜空星点 */}
-         <div className="absolute top-12 left-1/3 w-1 h-1 bg-yellow-200/80 dark:bg-yellow-100/70 rounded-full animate-twinkle"></div>
-         <div className="absolute top-24 left-1/2 w-1 h-1 bg-yellow-300/80 dark:bg-yellow-200/70 rounded-full animate-twinkle" style={{animationDelay: '1s'}}></div>
-         <div className="absolute top-36 left-2/3 w-1 h-1 bg-yellow-100/80 dark:bg-yellow-50/70 rounded-full animate-twinkle" style={{animationDelay: '2s'}}></div>
-         <div className="absolute bottom-1/4 right-1/2 w-1 h-1 bg-yellow-200/80 dark:bg-yellow-100/70 rounded-full animate-twinkle" style={{animationDelay: '3s'}}></div>
-         <div className="absolute bottom-1/3 right-2/3 w-1 h-1 bg-yellow-300/80 dark:bg-yellow-200/70 rounded-full animate-twinkle" style={{animationDelay: '4s'}}></div>
-      </div>
+         {mounted && (
+           <>
+             {/* 夜间模式 - 月亮音乐主题 */}
+             {theme === 'dark' && (
+               <>
+                 {/* 月亮主体 - 增强发光效果 */}
+                 <div className="absolute top-16 right-16 w-24 h-24 bg-gradient-radial from-yellow-200 via-yellow-300 to-yellow-400 rounded-full animate-moon-phase shadow-2xl">
+                   <div className="absolute inset-0 rounded-full animate-moon-glow" />
+                   {/* 月亮表面纹理 */}
+                   <div className="absolute top-2 left-3 w-2 h-2 bg-yellow-500 rounded-full opacity-60" />
+                   <div className="absolute top-6 right-4 w-1.5 h-1.5 bg-yellow-500 rounded-full opacity-40" />
+                   <div className="absolute bottom-4 left-6 w-1 h-1 bg-yellow-500 rounded-full opacity-50" />
+                 </div>
+                 
+                 {/* 月光光束 - 增强效果 */}
+                 {[...Array(8)].map((_, i) => (
+                   <div
+                     key={`moonbeam-${i}`}
+                     className="absolute top-20 right-20 w-1 bg-gradient-to-b from-yellow-200/40 via-yellow-300/20 to-transparent animate-moonbeam"
+                     style={{
+                       height: '400px',
+                       transform: `rotate(${i * 45}deg)`,
+                       transformOrigin: 'top center',
+                       animationDelay: `${i * 0.3}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 音符元素 - 夜间版本 */}
+                 {[...Array(12)].map((_, i) => {
+                   const pseudoRandom = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+                   const fontSize = 1.2 + Math.abs(pseudoRandom) * 0.8;
+                   const topPosition = 30 + Math.sin(i) * 20;
+                   
+                   return (
+                     <div
+                       key={`note-${i}`}
+                       className="absolute text-yellow-300/70 animate-bounce-music"
+                       style={{
+                         left: `${20 + (i * 8)}%`,
+                         top: `${topPosition}%`,
+                         fontSize: `${fontSize}rem`,
+                         animationDelay: `${i * 0.2}s`,
+                       }}
+                     >
+                       {['♪', '♫', '♬', '♩', '♭', '♯'][i % 6]}
+                     </div>
+                   );
+                 })}
+                 
+                 {/* 音乐波浪效果 - 夜间版本 */}
+                 {[...Array(6)].map((_, i) => (
+                   <div
+                     key={`wave-${i}`}
+                     className="absolute left-10 bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-music-wave"
+                     style={{
+                       top: `${40 + i * 8}%`,
+                       width: `${60 + i * 10}px`,
+                       height: '3px',
+                       borderRadius: '2px',
+                       animationDelay: `${i * 0.1}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 月光波纹 - 增强效果 */}
+                 {[...Array(5)].map((_, i) => (
+                   <div
+                     key={`ripple-${i}`}
+                     className="absolute top-20 right-20 border-2 border-yellow-300/30 rounded-full animate-moonlight-ripple"
+                     style={{
+                       width: `${100 + i * 40}px`,
+                       height: `${100 + i * 40}px`,
+                       animationDelay: `${i * 0.8}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 星光音符轨迹 - 增强效果 */}
+                 {[...Array(8)].map((_, i) => (
+                   <div
+                     key={`star-trail-${i}`}
+                     className="absolute text-blue-300/80 animate-starlight-trail"
+                     style={{
+                       right: `${10 + i * 12}%`,
+                       top: `${20 + i * 8}%`,
+                       fontSize: '1.5rem',
+                       animationDelay: `${i * 0.4}s`,
+                     }}
+                   >
+                     ✦
+                   </div>
+                 ))}
+                 
+                 {/* 星座连线效果 */}
+                 {[...Array(4)].map((_, i) => (
+                   <div
+                     key={`constellation-${i}`}
+                     className="absolute animate-constellation"
+                     style={{
+                       left: `${15 + i * 20}%`,
+                       top: `${15 + i * 15}%`,
+                       animationDelay: `${i * 2}s`,
+                     }}
+                   >
+                     <div className="relative">
+                       <div className="w-2 h-2 bg-blue-300 rounded-full animate-star-pulse" />
+                       <div className="absolute top-1 left-1 w-8 h-0.5 bg-gradient-to-r from-blue-300/60 to-transparent rotate-45" />
+                       <div className="absolute top-1 left-1 w-6 h-0.5 bg-gradient-to-r from-blue-300/40 to-transparent -rotate-12" />
+                     </div>
+                   </div>
+                 ))}
+                 
+                 {/* 流星效果 */}
+                 {[...Array(3)].map((_, i) => (
+                   <div
+                     key={`shooting-star-${i}`}
+                     className="absolute w-1 h-1 bg-white rounded-full animate-shooting-star"
+                     style={{
+                       right: `${20 + i * 30}%`,
+                       top: `${10 + i * 20}%`,
+                       animationDelay: `${i * 3 + 2}s`,
+                       boxShadow: '0 0 6px rgba(255,255,255,0.3), 0 0 12px rgba(255,255,255,0.2), 0 0 18px rgba(255,255,255,0.1)',
+                     }}
+                   >
+                     <div className="absolute -left-8 top-0 w-8 h-0.5 bg-gradient-to-r from-white to-transparent" />
+                   </div>
+                 ))}
+                 
+                 {/* 月光五线谱 - 增强效果 */}
+                 {[...Array(5)].map((_, i) => (
+                   <div
+                     key={`staff-${i}`}
+                     className="absolute left-1/4 w-1/2 h-0.5 bg-gradient-to-r from-transparent via-yellow-300/40 to-transparent animate-moonlight-staff"
+                     style={{
+                       top: `${60 + i * 4}%`,
+                       animationDelay: `${i * 0.3}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 夜空星点 - 增强闪烁效果 */}
+                 {[...Array(25)].map((_, i) => {
+                   const pseudoRandomX = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+                   const pseudoRandomY = (Math.sin(i * 78.233) * 43758.5453) % 1;
+                   const pseudoRandomDelay = (Math.sin(i * 45.164) * 43758.5453) % 1;
+                   const pseudoRandomOpacity = (Math.sin(i * 23.456) * 43758.5453) % 1;
+                   
+                   return (
+                     <div
+                       key={`star-${i}`}
+                       className="absolute w-1 h-1 bg-white rounded-full animate-twinkle"
+                       style={{
+                         left: `${Math.abs(pseudoRandomX) * 100}%`,
+                         top: `${Math.abs(pseudoRandomY) * 100}%`,
+                         animationDelay: `${Math.abs(pseudoRandomDelay) * 3}s`,
+                         opacity: 0.2 + Math.abs(pseudoRandomOpacity) * 0.4,
+                       }}
+                     />
+                   );
+                 })}
+                 
+                 {/* 月光光晕 */}
+                 <div className="absolute top-8 right-8 w-40 h-40 bg-gradient-radial from-yellow-200/20 via-yellow-300/10 to-transparent rounded-full animate-pulse" />
+               </>
+             )}
+
+             {/* 白天模式 - 太阳音乐主题 */}
+             {theme === 'light' && (
+               <>
+                 {/* 太阳主体 - 温暖发光效果 */}
+                 <div className="absolute top-16 right-16 w-28 h-28 bg-gradient-radial from-orange-300 via-yellow-400 to-orange-500 rounded-full animate-sun-rotation shadow-2xl">
+                   <div className="absolute inset-0 rounded-full animate-sun-glow" />
+                   {/* 太阳光芒 */}
+                   {[...Array(12)].map((_, i) => (
+                     <div
+                       key={`sun-ray-${i}`}
+                       className="absolute w-1 h-8 bg-gradient-to-t from-orange-400/60 to-yellow-300/80 rounded-full animate-sun-rays"
+                       style={{
+                         top: '-16px',
+                         left: '50%',
+                         transformOrigin: '50% 30px',
+                         transform: `translateX(-50%) rotate(${i * 30}deg)`,
+                         animationDelay: `${i * 0.1}s`,
+                       }}
+                     />
+                   ))}
+                 </div>
+                 
+                 {/* 阳光光束 - 温暖效果 */}
+                 {[...Array(6)].map((_, i) => (
+                   <div
+                     key={`sunbeam-${i}`}
+                     className="absolute top-20 right-20 w-2 bg-gradient-to-b from-orange-300/30 via-yellow-400/20 to-transparent animate-sunbeam"
+                     style={{
+                       height: '350px',
+                       transform: `rotate(${i * 60}deg)`,
+                       transformOrigin: 'top center',
+                       animationDelay: `${i * 0.4}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 音符元素 - 白天版本 */}
+                 {[...Array(15)].map((_, i) => {
+                   const pseudoRandom = (Math.sin(i * 12.9898) * 43758.5453) % 1;
+                   const fontSize = 1.0 + Math.abs(pseudoRandom) * 1.0;
+                   const topPosition = 25 + Math.sin(i) * 25;
+                   
+                   return (
+                     <div
+                       key={`sun-note-${i}`}
+                       className="absolute text-orange-500/70 animate-float-music"
+                       style={{
+                         left: `${15 + (i * 6)}%`,
+                         top: `${topPosition}%`,
+                         fontSize: `${fontSize}rem`,
+                         animationDelay: `${i * 0.15}s`,
+                       }}
+                     >
+                       {['♪', '♫', '♬', '♩', '♭', '♯', '𝄞'][i % 7]}
+                     </div>
+                   );
+                 })}
+                 
+                 {/* 音乐光波效果 - 白天版本 */}
+                 {[...Array(8)].map((_, i) => (
+                   <div
+                     key={`light-wave-${i}`}
+                     className="absolute left-8 bg-gradient-to-r from-orange-400/20 via-yellow-400/30 to-orange-400/20 animate-light-wave"
+                     style={{
+                       top: `${35 + i * 6}%`,
+                       width: `${80 + i * 15}px`,
+                       height: '2px',
+                       borderRadius: '1px',
+                       animationDelay: `${i * 0.2}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 太阳光环 - 音乐节拍效果 */}
+                 {[...Array(4)].map((_, i) => (
+                   <div
+                     key={`sun-ring-${i}`}
+                     className="absolute top-20 right-20 border-2 border-orange-400/25 rounded-full animate-sun-pulse"
+                     style={{
+                       width: `${120 + i * 50}px`,
+                       height: `${120 + i * 50}px`,
+                       animationDelay: `${i * 0.6}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 音符轨迹 - 阳光版本 */}
+                 {[...Array(10)].map((_, i) => (
+                   <div
+                     key={`sun-trail-${i}`}
+                     className="absolute text-yellow-600/60 animate-sunny-trail"
+                     style={{
+                       right: `${8 + i * 10}%`,
+                       top: `${18 + i * 7}%`,
+                       fontSize: '1.3rem',
+                       animationDelay: `${i * 0.3}s`,
+                     }}
+                   >
+                     ☀
+                   </div>
+                 ))}
+                 
+                 {/* 音乐五线谱 - 阳光版本 */}
+                 {[...Array(5)].map((_, i) => (
+                   <div
+                     key={`sun-staff-${i}`}
+                     className="absolute left-1/4 w-1/2 h-0.5 bg-gradient-to-r from-transparent via-orange-400/30 to-transparent animate-sunny-staff"
+                     style={{
+                       top: `${65 + i * 3}%`,
+                       animationDelay: `${i * 0.25}s`,
+                     }}
+                   />
+                 ))}
+                 
+                 {/* 温暖粒子效果 */}
+                 {[...Array(20)].map((_, i) => {
+                   const pseudoRandomX = (Math.sin(i * 15.7898) * 43758.5453) % 1;
+                   const pseudoRandomY = (Math.sin(i * 82.233) * 43758.5453) % 1;
+                   const pseudoRandomDelay = (Math.sin(i * 48.164) * 43758.5453) % 1;
+                   const pseudoRandomOpacity = (Math.sin(i * 26.456) * 43758.5453) % 1;
+                   
+                   return (
+                     <div
+                       key={`warm-particle-${i}`}
+                       className="absolute w-1.5 h-1.5 bg-orange-300/50 rounded-full animate-warm-float"
+                       style={{
+                         left: `${Math.abs(pseudoRandomX) * 100}%`,
+                         top: `${Math.abs(pseudoRandomY) * 100}%`,
+                         animationDelay: `${Math.abs(pseudoRandomDelay) * 4}s`,
+                         opacity: 0.3 + Math.abs(pseudoRandomOpacity) * 0.4,
+                       }}
+                     />
+                   );
+                 })}
+                 
+                 {/* 太阳光晕 */}
+                 <div className="absolute top-8 right-8 w-48 h-48 bg-gradient-radial from-orange-200/15 via-yellow-300/10 to-transparent rounded-full animate-pulse" />
+               </>
+             )}
+           </>
+         )}
+       </div>
       
       {/* 内容层 */}
       <div className="relative z-10">
@@ -186,8 +451,10 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <button onClick={() => {
-                            navigator.clipboard.writeText('APWanderer');
-                            alert('微信号已复制!');
+                            if (typeof window !== 'undefined' && navigator.clipboard) {
+                              navigator.clipboard.writeText('APWanderer');
+                              alert('微信号已复制!');
+                            }
                           }} className="text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-wechat"><path d="M21 11.5c0-5.25-4.25-9.5-9.5-9.5S2 6.25 2 11.5c0 4.25 2.75 8 6.5 9.25c.5.1.5.35.5.5v1.5c0 .25.25.5.5.5h1c.25 0 .5-.25.5-.5v-1.5c0-.15.05-.3.1-.45c.5-.5 1.1-1 1.75-1.5c.5-.35 1.1-.7 1.75-1.05c.1-.05.15-.1.25-.15c.1-.05.2-.1.3-.15c.5-.25 1-.55 1.5-.9c.5-.35.95-.75 1.35-1.2c.4-.45.75-.95 1.05-1.5c.3-.55.5-1.15.6-1.8c.1-.65.15-1.3.15-2z"/></svg>
                           </button>
