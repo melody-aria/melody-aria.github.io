@@ -5,6 +5,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, Tag } from 'lucide-react';
 
+// 生成静态参数，用于静态导出
+export async function generateStaticParams() {
+  const allPosts = await getAllPosts();
+  const allTags = new Set<string>();
+  
+  // 收集所有标签
+  allPosts.forEach(post => {
+    post.tags.forEach(tag => allTags.add(tag));
+  });
+  
+  return Array.from(allTags).map((tag) => ({
+    tag: encodeURIComponent(tag),
+  }));
+}
+
 export default async function TagPage({ params }: { params: { tag: string } }) {
   const tag = decodeURIComponent(params.tag);
   const allPosts = await getAllPosts();
