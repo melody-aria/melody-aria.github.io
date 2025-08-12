@@ -9,7 +9,7 @@ import "yet-another-react-lightbox/styles.css";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Leaf, Github, Home, BookOpen, MessageCircle, Code, Sun, Moon } from 'lucide-react'
+import { Calendar, Leaf, Github, Home, BookOpen, MessageCircle, Code, Sun, Moon } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 const categoryIcons = {
@@ -526,8 +526,6 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
                             <div className="flex items-center gap-2 text-sm text-emerald-600 pt-2">
                               <Calendar className="h-4 w-4" />
                               <span>{post.date}</span>
-                              <Clock className="h-4 w-4 ml-2" />
-                              <span>{post.readTime}</span>
                             </div>
                           </CardHeader>
                           <CardContent>

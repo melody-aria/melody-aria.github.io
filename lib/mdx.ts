@@ -69,10 +69,16 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     // 从文件名中提取slug（去掉.mdx扩展名）
     const slug = filename.replace(/\.mdx$/, '');
     
-    // 估算阅读时间（假设每分钟阅读200个单词）
-    const contentWithoutMetadata = fileContents.replace(/export const metadata = {[^}]+}/, '').trim();
-    const wordCount = contentWithoutMetadata.split(/\s+/).length;
-    const readTime = `${Math.max(1, Math.ceil(wordCount / 200))} 分钟`;
+    // 估算阅读时间（假设每分钟阅读200个中文字符或100个英文单词）
+    const contentWithoutMetadata = fileContents.replace(/export const metadata = {[\s\S]*?}/, '').trim();
+    
+    // 分别统计中文字符和英文单词
+    const chineseChars = (contentWithoutMetadata.match(/[\u4e00-\u9fa5]/g) || []).length;
+    const englishWords = (contentWithoutMetadata.replace(/[\u4e00-\u9fa5]/g, '').match(/\b\w+\b/g) || []).length;
+    
+    // 中文按每分钟200字计算，英文按每分钟100词计算
+    const readTimeMinutes = Math.max(1, Math.ceil(chineseChars / 200 + englishWords / 100));
+    const readTime = `${readTimeMinutes} 分钟`;
     
     // 返回文章元数据
     return {
@@ -106,11 +112,15 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const data = extractMetadata(fileContents);
     
     // 提取内容
-    const content = fileContents.replace(/export const metadata = {[^}]+}/, '').trim();
+    const content = fileContents.replace(/export const metadata = {[\s\S]*?}/, '').trim();
     
-    // 估算阅读时间
-    const wordCount = content.split(/\s+/).length;
-    const readTime = `${Math.max(1, Math.ceil(wordCount / 200))} 分钟`;
+    // 估算阅读时间（假设每分钟阅读200个中文字符或100个英文单词）
+    const chineseChars = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
+    const englishWords = (content.replace(/[\u4e00-\u9fa5]/g, '').match(/\b\w+\b/g) || []).length;
+    
+    // 中文按每分钟200字计算，英文按每分钟100词计算
+    const readTimeMinutes = Math.max(1, Math.ceil(chineseChars / 200 + englishWords / 100));
+    const readTime = `${readTimeMinutes} 分钟`;
     
     // 返回文章完整信息
     return {

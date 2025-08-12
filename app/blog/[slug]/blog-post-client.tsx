@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Calendar, Clock, Leaf, Heart } from 'lucide-react'
+import { ArrowLeft, Calendar, Leaf, Heart } from 'lucide-react'
 import MarkdownRenderer from "@/components/markdown-renderer"
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -78,10 +78,6 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 <Calendar className="h-4 w-4" />
                 <span>{post.date}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{post.readTime}</span>
-              </div>
             </div>
           </div>
         </div>
@@ -97,10 +93,6 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   <span>{post.date}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  <span>{post.readTime}</span>
                 </div>
               </div>
             </div>

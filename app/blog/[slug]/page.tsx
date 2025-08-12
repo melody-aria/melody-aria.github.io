@@ -8,7 +8,7 @@ interface BlogPostPageProps {
   }
 }
 
-// 生成静态参数，用于静态导出
+// Generate static parameters for static export
 export async function generateStaticParams() {
   const posts = await getAllPosts()
   
@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await getPostBySlug(params.slug)
+  const { slug } = await params
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     notFound()
