@@ -1,0 +1,455 @@
+export const metadata = {
+  title: '新手小白如何通过GitHub搭建个人博客 - 完整教程',
+  date: '2025-8-29',
+  description: '从零开始，手把手教你使用GitHub Pages + Next.js搭建属于自己的个人博客，包含详细步骤和代码示例',
+  tags: ['GitHub Pages', 'Next.js', '博客搭建', '教程', '新手指南'],
+  category: '技术教程'
+}
+
+# 🚀 新手小白如何通过GitHub搭建个人博客
+
+> 本教程将手把手教你从零开始搭建一个现代化的个人博客，无需服务器，完全免费！
+
+## 📖 教程概述
+
+### 🎯 你将学到什么
+
+- ✅ 如何使用GitHub Pages免费托管博客
+- ✅ Next.js框架的基本使用
+- ✅ MDX格式文章的编写
+- ✅ 自动化部署流程
+- ✅ 博客的维护和更新
+
+### 🛠️ 技术栈介绍
+
+- **GitHub Pages**: 免费的静态网站托管服务
+- **Next.js**: React框架，支持静态站点生成
+- **MDX**: Markdown + JSX，让你的文章更丰富
+- **Tailwind CSS**: 现代化的CSS框架
+- **GitHub Actions**: 自动化部署工具
+
+### ⏱️ 预计时间
+
+- **初次搭建**: 30-60分钟
+- **熟练后**: 10-15分钟
+
+---
+
+## 🔧 准备工作
+
+### 📋 必备条件
+
+1. **GitHub账号** - [注册地址](https://github.com)
+2. **Git工具** - [下载地址](https://git-scm.com/)
+3. **Node.js** - [下载地址](https://nodejs.org/) (推荐LTS版本)
+4. **代码编辑器** - 推荐 [VS Code](https://code.visualstudio.com/)
+
+### 🔍 检查环境
+
+打开终端/命令提示符，运行以下命令检查环境：
+
+```bash
+# 检查Git版本
+git --version
+
+# 检查Node.js版本
+node --version
+
+# 检查npm版本
+npm --version
+```
+
+如果都能正常显示版本号，说明环境准备完成！
+
+---
+
+## 🏗️ 详细搭建步骤
+
+### 第一步：创建GitHub仓库
+
+#### 1.1 登录GitHub
+
+访问 [GitHub](https://github.com) 并登录你的账号。
+
+#### 1.2 创建新仓库
+
+1. 点击右上角的 **"+"** 按钮
+2. 选择 **"New repository"**
+3. 填写仓库信息：
+   - **Repository name**: `your-username.github.io`
+     > ⚠️ **重要**: 将 `your-username` 替换为你的GitHub用户名
+   - **Description**: `我的个人博客`
+   - **Public**: 选择公开
+   - **Initialize with README**: 勾选
+
+4. 点击 **"Create repository"**
+
+#### 1.3 启用GitHub Pages
+
+1. 进入刚创建的仓库
+2. 点击 **"Settings"** 标签
+3. 在左侧菜单找到 **"Pages"**
+4. 在 **"Source"** 下选择 **"GitHub Actions"**
+
+### 第二步：克隆仓库到本地
+
+#### 2.1 获取仓库地址
+
+在仓库页面点击绿色的 **"Code"** 按钮，复制HTTPS地址。
+
+#### 2.2 克隆到本地
+
+```bash
+# 克隆仓库（替换为你的仓库地址）
+git clone https://github.com/your-username/your-username.github.io.git
+
+# 进入项目目录
+cd your-username.github.io
+```
+
+### 第三步：初始化Next.js项目
+
+#### 3.1 创建Next.js应用
+
+```bash
+# 使用create-next-app创建项目
+npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
+```
+
+#### 3.2 安装额外依赖
+
+```bash
+# 安装MDX相关依赖
+npm install @next/mdx @mdx-js/loader @mdx-js/react @types/mdx
+
+# 安装其他有用的包
+npm install gray-matter reading-time
+```
+
+### 第四步：配置Next.js项目
+
+#### 4.1 配置next.config.js
+
+创建或修改 `next.config.js` 文件：
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'dist',
+  images: {
+    unoptimized: true
+  }
+}
+
+module.exports = nextConfig
+```
+
+#### 4.2 创建项目结构
+
+```bash
+# 创建必要的目录
+mkdir -p src/app src/components src/lib content public/images
+
+# 创建基本文件
+touch src/app/layout.tsx src/app/page.tsx
+touch src/components/Header.tsx src/components/Footer.tsx
+touch src/lib/posts.ts
+```
+
+#### 4.3 配置MDX支持
+
+创建 `mdx-components.tsx` 文件：
+
+```typescript
+import type { MDXComponents } from 'mdx/types'
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    h1: ({ children }) => <h1 className="text-4xl font-bold mb-4">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-3xl font-semibold mb-3">{children}</h2>,
+    p: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
+    ...components,
+  }
+}
+```
+
+### 第五步：创建博客页面
+
+#### 5.1 主页面 (src/app/page.tsx)
+
+```typescript
+import Link from 'next/link'
+import { getAllPosts } from '@/lib/posts'
+
+export default function Home() {
+  const posts = getAllPosts()
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8">我的博客</h1>
+      <div className="space-y-6">
+        {posts.map((post) => (
+          <article key={post.slug} className="border-b pb-6">
+            <h2 className="text-2xl font-semibold mb-2">
+              <Link href={`/posts/${post.slug}`} className="hover:text-blue-600">
+                {post.title}
+              </Link>
+            </h2>
+            <p className="text-gray-600 mb-2">{post.date}</p>
+            <p className="text-gray-800">{post.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+#### 5.2 文章页面 (src/app/posts/[slug]/page.tsx)
+
+```typescript
+import { getPostBySlug, getAllPosts } from '@/lib/posts'
+import { MDXRemote } from 'next-mdx-remote/rsc'
+
+interface Props {
+  params: { slug: string }
+}
+
+export default function Post({ params }: Props) {
+  const post = getPostBySlug(params.slug)
+
+  return (
+    <article className="max-w-4xl mx-auto px-4 py-8">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        <p className="text-gray-600">{post.date}</p>
+      </header>
+      <div className="prose prose-lg max-w-none">
+        <MDXRemote source={post.content} />
+      </div>
+    </article>
+  )
+}
+
+export function generateStaticParams() {
+  const posts = getAllPosts()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+```
+
+### 第六步：编写你的第一篇文章
+
+#### 6.1 创建文章文件
+
+在 `content` 目录下创建 `hello-world.mdx`：
+
+```mdx
+---
+title: "Hello World - 我的第一篇博客"
+date: "2024-12-30"
+description: "欢迎来到我的个人博客！这是我的第一篇文章。"
+tags: ["随笔", "开始"]
+---
+
+# 欢迎来到我的博客！
+
+这是我使用 **GitHub Pages** 和 **Next.js** 搭建的个人博客的第一篇文章。
+
+## 为什么要写博客？
+
+- 📝 记录学习过程
+- 💡 分享有趣的想法
+- 🤝 与他人交流经验
+- 📈 提升写作能力
+
+## 接下来的计划
+
+1. 继续学习新技术
+2. 分享更多有价值的内容
+3. 优化博客的设计和功能
+
+感谢你的阅读！
+```
+
+### 第七步：设置GitHub Actions自动部署
+
+#### 7.1 创建工作流文件
+
+创建 `.github/workflows/deploy.yml`：
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build
+      run: npm run build
+      
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+```
+
+#### 7.2 修改package.json
+
+确保你的 `package.json` 包含正确的脚本：
+
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}
+```
+
+### 第八步：部署博客
+
+#### 8.1 提交代码
+
+```bash
+# 添加所有文件
+git add .
+
+# 提交更改
+git commit -m "初始化博客项目"
+
+# 推送到GitHub
+git push origin main
+```
+
+#### 8.2 检查部署状态
+
+1. 在GitHub仓库页面，点击 **"Actions"** 标签
+2. 查看工作流运行状态
+3. 等待部署完成（通常需要2-5分钟）
+
+#### 8.3 访问你的博客
+
+部署成功后，访问 `https://your-username.github.io` 查看你的博客！
+
+---
+
+## 🔧 博客维护与优化
+
+### 📝 日常维护
+
+#### 添加新文章
+
+1. 在 `content` 目录创建新的 `.mdx` 文件
+2. 添加文章元数据和内容
+3. 提交并推送到GitHub
+4. 自动部署完成
+
+#### 更新现有文章
+
+1. 编辑对应的 `.mdx` 文件
+2. 提交更改
+3. 推送到GitHub
+
+### 🎨 自定义博客
+
+#### 修改样式
+
+- 编辑 `src/app/globals.css`
+- 使用 Tailwind CSS 类名
+- 自定义组件样式
+
+#### 添加功能
+
+- **评论系统**: 集成 Giscus 或 Utterances
+- **搜索功能**: 使用 Algolia 或本地搜索
+- **分析工具**: 集成 Google Analytics
+- **RSS订阅**: 生成 RSS feed
+
+#### 性能优化
+
+- 压缩图片
+- 启用缓存
+- 优化字体加载
+- 减少包大小
+
+### 🛠️ 常见问题解决
+
+#### 部署失败
+
+1. 检查 GitHub Actions 日志
+2. 确认 `next.config.js` 配置正确
+3. 验证所有依赖都已安装
+
+#### 页面显示异常
+
+1. 检查 MDX 文件格式
+2. 验证组件导入路径
+3. 查看浏览器控制台错误
+
+#### 样式不生效
+
+1. 确认 Tailwind CSS 配置
+2. 检查 CSS 文件导入
+3. 验证类名拼写
+
+---
+
+## 🎉 总结
+
+恭喜你！现在你已经成功搭建了属于自己的个人博客。这个博客具有以下特点：
+
+- ✅ **完全免费** - 使用GitHub Pages托管
+- ✅ **现代化技术栈** - Next.js + MDX + Tailwind CSS
+- ✅ **自动部署** - 推送代码即可更新
+- ✅ **响应式设计** - 支持各种设备
+- ✅ **SEO友好** - 静态生成，搜索引擎友好
+- ✅ **易于维护** - 简单的文件结构
+
+### 🚀 下一步建议
+
+1. **定期更新内容** - 保持博客活跃
+2. **优化SEO** - 添加sitemap和robots.txt
+3. **社交分享** - 添加分享按钮
+4. **备份数据** - 定期备份重要内容
+5. **学习进阶** - 探索更多Next.js功能
+
+### 📚 相关资源
+
+- [Next.js官方文档](https://nextjs.org/docs)
+- [MDX官方文档](https://mdxjs.com/)
+- [Tailwind CSS文档](https://tailwindcss.com/docs)
+- [GitHub Pages文档](https://docs.github.com/pages)
+
+---
+
+**祝你博客之旅愉快！** 🎊
+
+如果在搭建过程中遇到问题，欢迎在GitHub Issues中提问，或者查看相关技术文档。记住，每个优秀的博客都是从第一篇文章开始的！
