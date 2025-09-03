@@ -1,0 +1,68 @@
+export const metadata = {
+  title: 'css学习-第一天',
+  date: '2025-09-03',
+  description: '本文用于个人css的学习',
+  tags: [ 'css', '笔记'],
+  category: '知识'
+}
+
+# css简介
+  css（cascading style sheets）层叠样式表，用于描述html文档的样式。
+  *如果html是房子的骨架，css就是房子的装修，html负责结构，css负责样式。*
+  *css的作用就是美化html页面，使页面看起来更加美观。*
+# css工作原理
+  css的工作原理是：浏览器会根据html文档的结构，找到对应的css样式，然后根据css样式来渲染页面。
+# css的语法
+  css的语法是：选择器{属性：属性值;}
+  *选择器*：用于选择html元素
+  *属性*：用于描述元素的样式
+  *属性值*：用于指定属性的具体值
+  *注意*：属性和属性值之间用冒号隔开，每个属性值之间用分号隔开。结束使用分号。
+  *示例*
+    <style>
+    body {
+      background-color: aqua;
+    }
+    h1 {
+      color: brown;
+    }
+    p {
+      color: blue;
+    }
+  </style> 
+# css注释
+  css注释是：/*注释内容*/
+  *注释内容*：用于描述css的作用
+  *注意*：注释内容不会被浏览器解析，只是用于方便开发人员阅读。
+# id选择器
+  id选择器的作用就是识别html元素的id属性，然后根据id属性来设置样式。
+  *注意*：id属性在一个html文档中只能出现一次。
+  *示例*
+  id 选择器
+    <p id="p1">hello world</p>
+    <p>这个锻炼不受影响</p>
+    <style>
+        #p1 {
+            color: brown;
+        }
+    </style>
+    *注意*：id选择器的选择器名称前面要加上#号。
+# class 类 选择器
+  class选择器的作用就是识别html元素的class属性，然后根据class属性来设置样式。
+  *注意*：class属性可以在一个html文档中出现多次。
+  *示例*
+  class 选择器
+    <p class="p1">段落p1</p>
+    <h1 class="p1">标题h1</h1>
+    <p class="p1 p2">段落p2</p> //空格以选择多个class
+    <style>
+        .p1 {
+            color: blue;
+        }
+        h1.p1{
+            text-align: center;
+        }
+        .p2{
+            text-align: right;
+        }
+    </style>
