@@ -1,0 +1,37 @@
+export const metadata = {
+  title: "vue3的项目的结构",
+  date: "2025-09-03",
+  description: "本文章适用于新手小白了解vue3的项目结构",
+  tags: ["博客", "学习", "vue3"],
+  category: "技术",
+  image: "/vue3.png" // 在这里引用您的图片
+}
+
+# 前言
+**本文章基于本人做的项目来进行对vue3项目的结构进行介绍。**
+## 基本项目结构
+
+![vue3项目的结构](/structure.png)
+
+## 项目结构说明
+### 核心文件
+- `main.ts` - 应用入口文件，配置了Vue应用、路由、状态管理和样式
+- `App.vue` - 根组件，包含侧边栏和主内容区域的布局结构
+- `index.html` - HTML模板文件，定义了应用的基础结构
+### 核心目录
+- `src/router` - 路由配置，包含首页(HomeView)和关于页面(AboutView)的路由定义
+- `src/stores` - Pinia状态管理，包含用户状态(user.ts)、应用状态(app.ts)和计数器状态(counter.ts)
+- `src/components` - 核心组件库，包含侧边栏(Sidebar.vue)、用户信息(UserInfo.vue)、功能按钮(FunctionButtons.vue)和主内容区域(MainContent.vue)
+- `src/views` - 页面视图组件，包含首页视图和关于页面视图
+### 业务支持目录
+- `src/api` - API服务层，统一管理后端接口调用，包含请求配置和模块化接口
+- `src/types` - TypeScript类型定义，提供全局类型支持和接口定义
+- `src/styles` - 样式系统，包含CSS变量定义、通用样式和样式入口文件
+- `src/assets` - 静态资源，包含基础样式、主样式和应用图标
+### 配置文件
+- `.vscode` - VSCode编辑器配置，包含推荐插件和编辑器设置
+- `public` - 公共静态资源，包含网站图标等文件
+### 构建配置
+- `vite.config.ts` - Vite构建工具配置
+- `tsconfig.json` - TypeScript编译配置
+- `package.json` - 项目依赖和脚本配置
