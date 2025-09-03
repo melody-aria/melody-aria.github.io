@@ -13,6 +13,16 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   let footnotes: {[key: string]: string} = {};
   let footnoteRefs: string[] = [];
   
+  // 生成标题ID的辅助函数
+  const generateHeadingId = (text: string): string => {
+    return text
+      .toLowerCase()
+      .replace(/[^\u4e00-\u9fa5a-z0-9\s-]/g, '') // 保留中文、英文、数字、空格和连字符
+      .replace(/\s+/g, '-') // 将空格替换为连字符
+      .replace(/-+/g, '-') // 将多个连字符合并为一个
+      .replace(/^-|-$/g, ''); // 移除开头和结尾的连字符
+  };
+  
   // 处理文本中的格式
   const processTextFormatting = (text: string): React.ReactNode => {
     // 创建一个数组来存储处理后的元素
@@ -24,7 +34,20 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
       { regex: /\*\*([^*]+)\*\*/g, component: (content: string, index: string) => <strong key={`strong-${index}`} className="font-bold text-emerald-800">{content}</strong> },
       { regex: /\*([^*]+)\*/g, component: (content: string, index: string) => <em key={`em-${index}`} className="italic text-emerald-700">{content}</em> },
       { regex: /~~([^~]+)~~/g, component: (content: string, index: string) => <del key={`del-${index}`} className="line-through text-slate-500">{content}</del> },
-      { regex: /\[([^\]]+)\]\(([^)]+)\)/g, component: (linkText: string, url: string, index: string) => <a key={`link-${index}`} href={url} className="text-emerald-600 hover:text-emerald-800 underline" target="_blank" rel="noopener noreferrer">{linkText}</a> },
+      { regex: /\[([^\]]+)\]\(([^)]+)\)/g, component: (linkText: string, url: string, index: string) => {
+        // 如果是锚点链接（以#开头），则在当前页面跳转
+        const isAnchorLink = url.startsWith('#');
+        return (
+          <a 
+            key={`link-${index}`} 
+            href={url} 
+            className="text-emerald-600 hover:text-emerald-800 underline" 
+            {...(!isAnchorLink && { target: "_blank", rel: "noopener noreferrer" })}
+          >
+            {linkText}
+          </a>
+        );
+      } },
       { regex: /\[\^([^\]]+)\]/g, component: (footnoteId: string, index: string) => {
         if (footnotes[footnoteId]) {
           return (
@@ -197,7 +220,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           inUnorderedList = false;
         }
         
-        result.push(<h1 key={key} className="text-3xl font-bold text-emerald-800 mb-6">{processTextFormatting(line.slice(2))}</h1>);
+        const h1Text = line.slice(2);
+        const h1Id = generateHeadingId(h1Text);
+        result.push(<h1 key={key} id={h1Id} className="text-3xl font-bold text-emerald-800 mb-6">{processTextFormatting(h1Text)}</h1>);
       } 
       // 处理二级标题
       else if (line.startsWith('## ')) {
@@ -212,7 +237,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           inUnorderedList = false;
         }
         
-        result.push(<h2 key={key} className="text-2xl font-semibold text-emerald-700 mb-4 mt-8">{processTextFormatting(line.slice(3))}</h2>);
+        const h2Text = line.slice(3);
+        const h2Id = generateHeadingId(h2Text);
+        result.push(<h2 key={key} id={h2Id} className="text-2xl font-semibold text-emerald-700 mb-4 mt-8">{processTextFormatting(h2Text)}</h2>);
       } 
       // 处理三级标题
       else if (line.startsWith('### ')) {
@@ -227,19 +254,27 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           inUnorderedList = false;
         }
         
-        result.push(<h3 key={key} className="text-xl font-medium text-emerald-600 mb-3 mt-6">{processTextFormatting(line.slice(4))}</h3>);
+        const h3Text = line.slice(4);
+        const h3Id = generateHeadingId(h3Text);
+        result.push(<h3 key={key} id={h3Id} className="text-xl font-medium text-emerald-600 mb-3 mt-6">{processTextFormatting(h3Text)}</h3>);
       }
       // 处理四级标题
       else if (line.startsWith('#### ')) {
-        result.push(<h4 key={key} className="text-lg font-medium text-emerald-600 mb-2 mt-4">{processTextFormatting(line.slice(5))}</h4>);
+        const h4Text = line.slice(5);
+        const h4Id = generateHeadingId(h4Text);
+        result.push(<h4 key={key} id={h4Id} className="text-lg font-medium text-emerald-600 mb-2 mt-4">{processTextFormatting(h4Text)}</h4>);
       }
       // 处理五级标题
       else if (line.startsWith('##### ')) {
-        result.push(<h5 key={key} className="text-base font-medium text-emerald-600 mb-2 mt-3">{processTextFormatting(line.slice(6))}</h5>);
+        const h5Text = line.slice(6);
+        const h5Id = generateHeadingId(h5Text);
+        result.push(<h5 key={key} id={h5Id} className="text-base font-medium text-emerald-600 mb-2 mt-3">{processTextFormatting(h5Text)}</h5>);
       }
       // 处理六级标题
       else if (line.startsWith('###### ')) {
-        result.push(<h6 key={key} className="text-sm font-medium text-emerald-600 mb-2 mt-3">{processTextFormatting(line.slice(7))}</h6>);
+        const h6Text = line.slice(7);
+        const h6Id = generateHeadingId(h6Text);
+        result.push(<h6 key={key} id={h6Id} className="text-sm font-medium text-emerald-600 mb-2 mt-3">{processTextFormatting(h6Text)}</h6>);
       }
       // 处理引用
       else if (line.startsWith('> ')) {
