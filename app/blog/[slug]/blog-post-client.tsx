@@ -123,13 +123,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
             slides={[{ src: imageSrc }]}
           />
 
-          {/* Like Button */}
-          <div className="mt-12 text-center">
-            <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
-              <Heart className="h-5 w-5 mr-2" />
-              喜欢这篇文章
-            </Button>
-          </div>
+
 
           {/* Navigation */}
           <div className="mt-16 pt-8 border-t border-emerald-200">
