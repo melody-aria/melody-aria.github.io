@@ -41,7 +41,7 @@ export default function AboutPage() {
                 <li><strong>UI 组件:</strong> shadcn/ui</li>
                 <li><strong>样式:</strong> Tailwind CSS</li>
                 <li><strong>内容:</strong> MDX</li>
-                <li><strong>部署:</strong> Vercel</li>
+                <li><strong>部署:</strong> GitHub Pages</li>
               </ul>
             </div>
           </div>
