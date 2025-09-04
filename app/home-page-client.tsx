@@ -54,7 +54,7 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
     
     // 按分类筛选
     if (selectedCategory !== '全部') {
-      posts = posts.filter(post => post.category === selectedCategory);
+      posts = posts.filter(post => post.categories && post.categories.includes(selectedCategory));
     }
     
     // 按标签筛选

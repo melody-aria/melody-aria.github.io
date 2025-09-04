@@ -9,7 +9,7 @@ export interface BlogPost {
   description: string;
   readTime?: string;
   tags: string[];
-  category: string; // 添加 category 字段
+  categories: string[]; // 修改为数组类型支持多分类
   image: string | null;
   content?: string;
 }
@@ -20,17 +20,28 @@ const contentDirectory = path.join(process.cwd(), 'content');
 // 辅助函数：从文件内容中提取元数据
 function extractMetadata(content: string): Omit<BlogPost, 'slug' | 'readTime' | 'content'> {
   try {
-    const metadataMatch = content.match(/export const metadata = {([\s\S]*?)}/);
+    const metadataMatch = content.match(/export const metadata = {([\s\S]*?)}/); 
     if (metadataMatch) {
       const metadataString = `{${metadataMatch[1]}}`;
       // 使用 Function 构造函数来安全地解析对象字符串
       const metadata = new Function(`return ${metadataString}`)();
+      
+      // 处理分类字段，支持字符串或数组格式
+      let categories = [];
+      if (metadata.categories) {
+        // 如果已经是数组格式，直接使用
+        categories = metadata.categories;
+      } else if (metadata.category) {
+        // 如果是字符串格式，转换为数组
+        categories = Array.isArray(metadata.category) ? metadata.category : [metadata.category];
+      }
+      
       return {
         title: metadata.title || 'Untitled',
         date: metadata.date || new Date().toISOString().split('T')[0],
         description: metadata.description || '',
         tags: metadata.tags || [],
-        category: metadata.category || '未分类',
+        categories: categories,
         image: metadata.image || null,
       };
     }
@@ -44,7 +55,7 @@ function extractMetadata(content: string): Omit<BlogPost, 'slug' | 'readTime' | 
     date: new Date().toISOString().split('T')[0],
     description: '',
     tags: [],
-    category: '未分类',
+    categories: ['未分类'],
     image: null,
   };
 }
