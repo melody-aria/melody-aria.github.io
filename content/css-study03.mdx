@@ -1,0 +1,57 @@
+export const metadata = {
+  title: 'css学习-第二天',
+  date: '2025-09-09',
+  description: '本文用于个人css的学习',
+  tags: [ 'css', '笔记'],
+  categories: ['知识','博客']
+}
+
+# 改变样式的默认行为
+    所有的元素刚开始都是默认的样式，我们可以通过css来改变元素的默认样式。
+    拿无序列表举例
+    ```
+    <ul>
+      <li>项目 1</li>
+      <li>项目 2</li>
+      <li>项目 <em>三</em></li>
+    </ul>
+    ```
+    我们可以通过css来改变无序列表的默认样式。
+    ```
+    <style>
+      ul {
+        list-style-type: none;
+      }
+    </style>
+    ```
+# font-weight: bold;
+    *font-weight*：用于设置元素的字体加粗。
+    *注意*：font-weight属性的单位是px（像素）。
+# link visit
+```
+ <p>
+        这是一个段落文本。在文本中有一个 <span>span element</span> 并且还有一个
+        <a href="http://example.com">链接</a>.
+    </p>
+    <style>
+       a:link {
+        color: pink;
+    }
+
+    a:visited {
+        color: green;
+    }
+    </style>
+```
+没有被访问的链接颜色变为粉色、访问过的链接变为绿色。
+# font-family
+    *font-family*：用于设置元素的字体。
+    *注意*：font-family属性的单位是px（像素）。
+## 基本语法
+```
+selector {
+  font-family: "字体1", "字体2", "字体3", "通用字体族";
+}
+```
+## 回退机制
+ 可以提供多个字体，它会进行判断，如果字体1安装了，就用字体1，否则用字体2，以此类推。

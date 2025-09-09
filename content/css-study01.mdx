@@ -66,3 +66,36 @@ export const metadata = {
             text-align: right;
         }
     </style>
+# 用逗号将不同选择器隔开
+  *用逗号将不同选择器隔开*：可以同时选择多个元素，然后设置相同的样式。
+  *注意*：逗号隔开的多个选择器，会同时生效。
+  *示例*
+  ```
+    <p class="p1">段落p1</p>
+    <h1 class="p1">标题h1</h1>
+    <p class="p1 p2">段落p2</p> //空格以选择多个class
+    <style>
+        .p1, h1 {
+            color: blue;
+        }
+        h1.p1{
+            text-align: center;
+        }
+        .p2{
+            text-align: right;
+        }
+    </style>
+  ```
+# 相邻选择符 +
+  *相邻选择符+*：选择紧接在另一个元素后的元素，且二者有相同的父元素。
+  *示例*
+  ```
+    <p>段落p1</p>
+    <h1>标题h1</h1>
+    <p>段落p2</p>
+    <style>
+        p + h1 {
+            color: blue;
+        }
+    </style>
+  ```
