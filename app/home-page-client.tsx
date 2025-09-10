@@ -32,6 +32,8 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
   const [selectedCategory, setSelectedCategory] = useState('全部');
   const [selectedTag, setSelectedTag] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5); // 每页显示5篇文章
   const { theme, setTheme } = useTheme();
 
   // 确保组件在客户端挂载后才渲染动态内容
@@ -64,6 +66,19 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
     
     return posts;
   }, [selectedCategory, selectedTag, blogPosts]);
+
+  // 分页计算
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const currentPosts = useMemo(() => {
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    return filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  }, [filteredPosts, currentPage, postsPerPage]);
+
+  // 重置页码当筛选条件改变时
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedTag]);
 
   const handleCategoryClick = (categoryName) => {
     setSelectedCategory(categoryName);
@@ -503,7 +518,7 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
 
             <main className="lg:col-span-2">
               <div className="space-y-8">
-                {filteredPosts.map((post) => (
+                {currentPosts.map((post) => (
                   <Link key={post.slug} href={`/blog/${post.slug}`}>
                     <Card className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white/40 backdrop-blur-sm border-emerald-200 hover:border-emerald-300 dark:bg-slate-800/40 dark:border-slate-600 dark:hover:border-slate-500">
                       <div className={`grid ${post.image ? 'md:grid-cols-3' : 'grid-cols-1'}`}>
@@ -553,6 +568,66 @@ export default function HomePageClient({ allPosts: blogPosts, popularPosts, allT
                     </Card>
                   </Link>
                 ))}
+                
+                {/* 分页导航 */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center space-x-2 mt-8">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className="bg-white/50 hover:bg-white/80 dark:bg-slate-700/50 dark:hover:bg-slate-700/80 border-emerald-200 dark:border-slate-600"
+                    >
+                      上一页
+                    </Button>
+                    
+                    <div className="flex space-x-1">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                        // 显示逻辑：当前页前后各显示2页
+                        const showPage = page === 1 || page === totalPages || 
+                          (page >= currentPage - 2 && page <= currentPage + 2);
+                        
+                        if (!showPage) {
+                          // 显示省略号
+                          if (page === currentPage - 3 || page === currentPage + 3) {
+                            return (
+                              <span key={page} className="px-2 py-1 text-slate-500 dark:text-slate-400">
+                                ...
+                              </span>
+                            );
+                          }
+                          return null;
+                        }
+                        
+                        return (
+                          <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(page)}
+                            className={currentPage === page 
+                              ? "bg-emerald-600 hover:bg-emerald-700 text-white" 
+                              : "bg-white/50 hover:bg-white/80 dark:bg-slate-700/50 dark:hover:bg-slate-700/80 border-emerald-200 dark:border-slate-600"
+                            }
+                          >
+                            {page}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                      disabled={currentPage === totalPages}
+                      className="bg-white/50 hover:bg-white/80 dark:bg-slate-700/50 dark:hover:bg-slate-700/80 border-emerald-200 dark:border-slate-600"
+                    >
+                      下一页
+                    </Button>
+                  </div>
+                )}
               </div>
             </main>
 

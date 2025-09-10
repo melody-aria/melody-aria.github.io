@@ -19,6 +19,7 @@ export const metadata = {
   *属性值*：用于指定属性的具体值
   *注意*：属性和属性值之间用冒号隔开，每个属性值之间用分号隔开。结束使用分号。
   *示例*
+  ```
     <style>
     body {
       background-color: aqua;
@@ -30,6 +31,7 @@ export const metadata = {
       color: blue;
     }
   </style> 
+  ```
 # css注释
   css注释是：/*注释内容*/
   *注释内容*：用于描述css的作用
@@ -38,6 +40,7 @@ export const metadata = {
   id选择器的作用就是识别html元素的id属性，然后根据id属性来设置样式。
   *注意*：id属性在一个html文档中只能出现一次。
   *示例*
+  ```
   id 选择器
     <p id="p1">hello world</p>
     <p>这个锻炼不受影响</p>
@@ -46,11 +49,13 @@ export const metadata = {
             color: brown;
         }
     </style>
+  ```
     *注意*：id选择器的选择器名称前面要加上#号。
 # class 类 选择器
   class选择器的作用就是识别html元素的class属性，然后根据class属性来设置样式。
   *注意*：class属性可以在一个html文档中出现多次。
   *示例*
+  ```
   class 选择器
     <p class="p1">段落p1</p>
     <h1 class="p1">标题h1</h1>
@@ -66,6 +71,7 @@ export const metadata = {
             text-align: right;
         }
     </style>
+    ```
 # 用逗号将不同选择器隔开
   *用逗号将不同选择器隔开*：可以同时选择多个元素，然后设置相同的样式。
   *注意*：逗号隔开的多个选择器，会同时生效。
@@ -86,7 +92,54 @@ export const metadata = {
         }
     </style>
   ```
-# 相邻选择符 +
+# 关系选择器
+## 后代选择器
+  ```
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cssStudy01</title>
+</head>
+<body>
+    <div class="box"><p>Text in .box</p></div>
+    <p>Text not in .box</p>
+
+<style>
+.box p{
+    color: red;
+}
+</style>
+</body>
+</html>
+  ```
+  *后代选择器就是选择某个元素的所有后代元素。*
+  *注意*：后代选择器可以选择多个元素，但是只能选择直接后代元素，不能选择间接后代元素。
+## 子代关系选择器
+  *子代关系选择器*：选择某个元素的直接子代元素。
+  *示例*
+  ```
+    <ul>
+  <li>Unordered item</li>
+  <li>
+    Unordered item
+    <ol>
+      <li>Item 1</li>
+      <li>Item 2</li>
+    </ol>
+  </li>
+</ul>
+    <style>
+      ul > li {
+
+  border-top: 5px solid red;
+
+              }
+    </style>
+  ```
+  以上例子中,ul > li 选择了ul元素的直接子代元素li,然后给li添加了边框。
+## 相邻选择符 +  邻接兄弟选择符
   *相邻选择符+*：选择紧接在另一个元素后的元素，且二者有相同的父元素。
   *示例*
   ```
@@ -99,6 +152,27 @@ export const metadata = {
         }
     </style>
   ```
+  以上例子中,p + h1 选择了p元素后面的h1元素,然后给h1元素添加了样式。
+## 通用兄弟
+ ```
+ <article>
+  <h1>A heading</h1>
+  <p>I am a paragraph.</p>
+  <div>I am a div</div>
+  <p>I am another paragraph.</p>
+</article>
+body {
+  font-family: sans-serif;
+}
+
+h1 ~ p {
+  font-weight: bold;
+  background-color: #333;
+  color: #fff;
+  padding: 0.5em;
+}
+ ```
+ 在以上例子中, h1 ~ p 选择了h1元素后面的所有p元素,然后给p元素添加了样式。
 # 伪类与伪元素
   *伪类*：用于选择元素的特殊状态，比如鼠标悬停、点击等。
   *伪元素*：用于选择元素的部分内容，比如第一个字母、第一个行等。
@@ -157,7 +231,7 @@ article p::first-line {
 }
   ```
   ## 把伪类和伪元素组合起来
-  选择一个<article>元素里面的第一个<p>元素的第一行。
+  *选择一个`<article>`元素里面的第一个`<p>`元素的第一行。*
   *示例*
   ```
     article p::first-line {
@@ -167,8 +241,8 @@ article p::first-line {
   ```
 # 运算符
   *运算符*：用于计算属性值。
-  *注意*：运算符的单位是px（像素）。
-  *示例* 下面的示例用运算符（>）选择了<article>元素的初代子元素。
+  *注意*:运算符的单位是px(像素)。
+  *示例* 下面的示例用运算符（>）选择了`<article>`元素的初代子元素。
   ```
     article > p {
       

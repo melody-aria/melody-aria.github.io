@@ -1,0 +1,256 @@
+export const metadata = {
+  title: 'css学习-第四天',
+  date: '2025-09-10',
+  description: '本文用于个人css的学习',
+  tags: [ 'css', '笔记'],
+  categories: ['知识','博客']
+}
+
+# 盒子模型(Box Model)
+    所有HTML元素可以看作盒子，在CSS中，"box model"这一术语是用来设计和布局时使用。
+    CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：边距，边框，填充，和实际内容。
+    盒模型允许我们在其它元素和周围元素边框之间的空间放置元素。
+   ![盒子模型的结构](/box.png)
+    盒模型的属性：
+    *margin*：元素的外边距
+    *border*：元素的边框
+    *padding*：元素的内边距
+    *content*：元素的内容
+    *width*：元素的宽度
+    *height*：元素的高度
+ ## 外部显示类型
+### Block 显示类型
+
+Block 类型的盒子具有以下特征：
+
+- 会在新行开始显示，并且占据一整行
+- 可以设置 width 和 height 属性
+- padding、margin 和 border 会推开其他元素
+- 如果不设置宽度，会自动填充父容器的宽度（100%）
+- 常见的块级元素：`<div>`、`<h1>-<h6>`、`<p>`、`<section>` 等
+
+### Inline 显示类型
+
+Inline 类型的盒子具有以下特征：
+
+- 在同一行内显示，不会强制换行
+- width 和 height 设置无效
+- 垂直方向的 padding、margin 和 border 虽然可见，但不会影响其他元素的位置
+- 水平方向的 padding、margin 和 border 会推开周围元素
+- 常见的行内元素：`<span>`、`<a>`、`<strong>`、`<em>` 等
+
+可以通过 `display` 属性来改变元素的显示类型，如 `display: block` 或 `display: inline`
+ ## 内部显示类型
+除了外部显示类型，每个盒子还具有内部显示类型，它决定了盒子内部子元素的排列和布局方式。
+
+在默认情况下，HTML元素会遵循标准文档流进行布局，表现为块级（block）或行内（inline）盒子。这是最基本的布局行为，不需要额外的CSS设置。
+
+我们可以通过修改`display`属性来改变元素的内部显示类型。一个典型的例子是设置`display: flex`，这会使该元素在保持块级（block）外部显示类型的同时，将内部显示类型变为弹性布局（flex）。此时，该元素的所有直接子元素都会成为弹性项（flex items），并按照弹性盒子（Flexbox）的规则进行排列和布局。
+# 替代盒模型
+替代盒模型 (box-sizing: border-box) 的核心概念是：
+    你设置的 width 和 height 就是这个盒子最终的、肉眼可见的总尺寸，不多也不少。
+    它将 padding (内边距) 和 border (边框) 的厚度全部包含在你设定的 width 和 height 之内。
+    这意味着，你设置的宽度和高度，就是元素内容区域的宽度和高度。
+    而不是包括内边距和边框的宽度和高度。
+    这与标准盒模型 (box-sizing: content-box) 形成对比，后者将宽度和高度定义为内容区域的尺寸。
+    
+    替代盒模型的优势在于，它更符合直觉，更方便进行布局和尺寸调整。
+    例如，当你设置一个元素的宽度为 200px，高度为 100px，并且同时设置了 20px 的内边距和 5px 的边框时，
+    替代盒模型会将这 20px 的内边距和 5px 的边框包含在 200px 和 100px 之内，而标准盒模型会将这 20px 的内边距和 5px 的边框添加到 200px 和 100px 之外。
+    这意味着，你可以更方便地控制元素的尺寸，而不需要考虑内边距和边框的影响。
+# 标准盒模型盒替代盒模型的区别
+   在标准盒模型 (content-box) 中，你设置的 width 和 height 属性，只直接控制 content (内容) 区域的尺寸。
+   在替代盒模型 (border-box) 中，padding 和 border 的改变，会反过来影响 content 区域的大小。
+
+   1. 标准盒模型 (content-box)
+width 属性控制谁？
+只控制 content 的宽度。
+
+padding 和 border 的作用？
+在 width 之外继续增加尺寸，导致整个盒子的最终视觉尺寸变大。
+
+content 的宽度如何决定？
+直接由你设置的 width 属性决定。它是固定不变的。
+
+比喻： width 是你箱子里能装东西的空间。padding(泡沫)和border(纸板)是在这个空间之外额外加上去的厚度。
+
+2. 替代盒模型 (border-box)
+width 属性控制谁？
+控制整个盒子（从左边框外缘到右边框外缘）的最终视觉宽度。
+
+padding 和 border 的作用？
+在 width 之内向内挤占空间。它们的增加，会导致 content 区域自动变小，但盒子的总尺寸保持不变。
+
+content 的宽度如何决定？
+由 width 减去 padding 和 border 的厚度之后剩下的空间决定。它是动态计算的。
+
+比喻： width 是你整个房间的宽度（从墙的一边到另一边）。padding(墙边留空)和border(墙壁厚度)占用的空间，是从这个总宽度里扣除的，剩下的才是 content（给你放家具的空间）。
+
+# display: inline-block
+display: inline-block 是 display 的一个特殊值，它提供了介于 inline 和 block 之间的中间位置。如果不希望项目换行，但又希望它使用 width 和 height 值并避免出现上述重叠现象，请使用它。
+
+一个元素使用 display: inline-block，实现我们需要的块级的部分效果：
+ ·设置 width 和height 属性会生效。
+ ·padding、margin 和 border 会推开其他元素。
+不过，它不会换行，只有在明确添加 width 和 height 属性后，才会变得比其内容大。
+# 层叠、继承、优先级
+## 冲突规则
+  CSS 代表层叠样式表（Cascading Style Sheets），理解第一个词层叠（cascade）很重要——层叠的表现方式是理解 CSS 的关键。
+  在某些时候，在做一个项目过程中你会发现一些应该产生效果的样式没有生效。通常的原因是你创建了两个应用于同一个元素的规则。与层叠密切相关的概念是优先级（specificity），决定在发生冲突的时候应该使用哪条规则。设计元素样式的规则可能不是期望的规则，因此需要了解这些机制是如何工作的。
+  这里也有继承的概念，也就是在默认情况下，一些 css 属性继承当前元素的父元素上设置的值，有些则不继承。这也可能导致一些和期望不同的结果。
+## 层叠
+   在下面的例子中，h1 元素的颜色是蓝色，而不是红色。这是因为第二个规则层叠了第一个规则。
+   *什么是层叠，按我的理解就是顺序执行，执行到最后一条规则时就会把之前的规则覆盖掉*
+   *在下面的例子中就是，第二个h1元素的颜色是蓝色，第一个h1元素的颜色被第二个h1元素的颜色覆盖了*
+```
+<h1>这是我的标题。</h1>
+
+h1 {
+
+  color: red;
+
+}
+
+h1 {
+
+  color: blue;
+
+}
+```
+## 优先级
+在层叠的例子中，虽然是顺序执行的，蓝色将红色覆盖掉了。所以蓝色的规则优先级更高。
+*什么是优先级，按我的理解就是，当有多个规则应用到同一个元素上时，浏览器会根据优先级来确定哪个规则生效。*
+*优先级的计算规则是，先计算选择器的specificity（具体性），具体性高的规则生效。*
+*如果具体性相同，那么后面的规则生效。*
+```
+<h1 class="title">这是我的标题。</h1>
+
+.title {
+    color: red;
+}
+
+h1 {
+
+  color: red;
+
+}
+
+h1 {
+
+  color: blue;
+
+}
+```
+很明显在上边的例子中，.title 类选择器的优先级更高，所以颜色是红色。
+## 继承
+```
+<body>
+<p>由于主题颜色被设置为蓝色，因此该颜色会被子元素继承。</p>
+<p>我们可以通过选择器定位元素来改变颜色，比如这个<span>内容跨越</span>元素。</p>
+
+<style>
+body {
+  color: blue;
+}
+
+span {
+  color: black;
+}
+</style>
+</body>
+```
+在上面的例子中，p 元素的颜色是蓝色，span 元素的颜色是黑色。这是因为 p 元素是 body 元素的子元素，所以会继承 body 元素的颜色。
+*注意*：继承的属性是可以被覆盖的，比如在上面的例子中，我们给 span 元素添加了 color: black; 样式，所以 span 元素的颜色是黑色。
+*一些属性是不能继承的——举个例子如果你在一个元素上设置 width 为 50% ，所有的后代不会是父元素的宽度的 50%。*
+# 重设所有属性值
+*可以使用 all: unset; 来重设所有属性值。*
+```
+<body>
+<blockquote>
+  <p>当前块引用设置了样式</p>
+</blockquote>
+
+<blockquote class="fix-this">
+  <p>当前块引用未设置样式</p>
+</blockquote>
+
+<style>
+blockquote {
+  background-color: orange;
+  border: 2px solid blue;
+}
+
+.fix-this {
+  all: unset;
+}
+</style>
+</body>
+```
+ *注意*：all: unset; 会重设所有属性值，包括继承的属性。
+ CSS 的简写属性 all 可以用于同时将这些继承值中的一个应用于（几乎）所有属性。它的值可以是其中任意一个（inherit、initial、unset 或 revert）。这是一种撤销对样式所做更改的简便方法，以便回到之前已知的起点。
+ *inherit*：继承父元素的属性值。
+ *initial*：将属性值设置为其默认值。
+ *unset*：如果属性是继承的，则与 inherit 相同；否则与 initial 相同。
+ *revert*：将属性值恢复为用户代理的默认样式。
+ 
+# !important
+ 有一个特殊的 CSS 可以用来覆盖所有上面所有优先级计算，不过需要很小心的使用——!important。用于修改特定属性的值，能够覆盖普通规则的层叠。
+
+ *示例*
+ ```
+<p class="better">这是个段落。</p>
+<p class="better" id="winning">一个选择器掌管一切！</p>
+
+#winning {
+  background-color: red;
+  border: 1px solid black;
+}
+
+.better {
+  background-color: gray;
+  border: none !important;
+}
+
+p {
+  background-color: blue;
+  color: white;
+  padding: 5px;
+}
+ ```
+  *注意*：!important 应该被视为最后的手段，因为它会使代码变得非常复杂，并且会使调试变得更加困难。
+1.你会发现第三个规则 color 和 padding 的值被应用了，但是 background-color 没有。为什么？应该三个都应用，因为顺序规则是后面覆盖前面。
+2.无论如何，上面的规则赢了，因为类选择器比元素选择器有更高的优先级。
+3.两个元素都有 better class，但是第二个有 id 。因为 ID 选择器比类选择器优先级更高（一个页面只能有一个独特的 ID，但是很多元素都有相同的类——ID 对于目标非常独特），红色背景和 1px 黑色边框应该都被应用到第二个元素，第一个元素应该是灰色背景和 no border，根据类选择器。
+4.第二个元素有红色背景但是没有边框。为什么？因为 !important 声明在第二条规则里——在 border: none 后面，说明即使计算优先级低，这个属性也使用这个值。
+  *备注*：覆盖 !important 唯一的办法就是另一个 !important 具有相同优先级而且顺序靠后，或者更高优先级。
+在一种情况下，你可能不得不使用它：当你不能编辑核心的 CSS 模块，不能用任何其他方式覆盖，而你又真的想要覆盖一个样式时。但说真的，如果可以避免的话就不要用它。
+
+# 级联层
+```
+/* 1. 用 @layer 语句预先定义好所有层的顺序，后面的优先级更高 */
+@layer reset, base, components, utilities;
+
+/* 2. 把规则放进不同的层 */
+
+@layer base {
+  /* 这是一个特指度很高的 ID 选择器，但它在 base 这个低优先级的层里 */
+  button#promo-button {
+    color: blue; /* 蓝色 */
+    font-weight: bold;
+  }
+}
+
+@layer utilities {
+  /* 这是一个特指度很低的 class 选择器，但它在 utilities 这个高优先级的层里 */
+  .text-red {
+    color: red; /* 红色 */
+  }
+}
+<button id="promo-button" class="text-red">这是一个按钮</button>
+```
+最终结果： 这个按钮的文字是 红色 的！
+
+为什么？
+虽然 #promo-button (ID选择器) 的特指度远远高于 .text-red (类选择器)，但是 .text-red 所在的 utilities 层是在 base 层之后定义的，所以 utilities 层的层级优先级更高。在新的规则下，层级优先级首先被比较，既然 utilities 层赢了，浏览器就不再需要去比较特指度了。
+
+*级联层的作用就是，事先定义好层的顺序。然后去使用*

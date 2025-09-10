@@ -142,11 +142,11 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         <div className="container mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Leaf className="h-6 w-6" />
-            <p className="text-lg font-medium">森之博客</p>
+            <p className="text-lg font-medium">清月弦音</p>
             <Leaf className="h-6 w-6" />
           </div>
           <p className="text-white/80">
-            用心记录，用爱分享 © 2024
+            用心记录，用爱分享 © 2025
           </p>
         </div>
       </footer>
