@@ -1,0 +1,177 @@
+export const metadata = {
+  title: 'css学习-第四天',
+  date: '2025-09-10',
+  description: '本文用于个人css的学习',
+  tags: [ 'css', '笔记'],
+  categories: ['知识','博客']
+}
+
+# css的值和单位
+## rgb() 函数
+rgb() 函数用于设置颜色值，它接受三个参数：红色、绿色和蓝色。每个参数的取值范围是 0 到 255。
+```css
+rgb(255, 0, 0) /* 红色 */
+rgb(0, 255, 0) /* 绿色 */
+rgb(0, 0, 255) /* 蓝色 */
+```
+*说白了就是根据三原色去组合颜色，感觉用不到，毕竟直接用颜色名不就好了*
+## 长度
+长度单位用于设置元素的宽度和高度。
+以下都是绝对长度单位——它们与其他任何东西都没有关系，通常被认为总是相同的大小。
+| 单位 | 名称 | 等价换算 |
+|------|------|----------|
+| cm | 厘米 | 1cm = 37.8px |
+| mm | 毫米 | 1mm = 3.78px |
+| Q | 四分之一毫米 | 1Q = 0.945px = 0.25mm |
+| in | 英寸 | 1in = 96px = 2.54cm |
+| pc | 派卡 | 1pc = 16px ≈ 0.4233cm |
+| pt | 磅 | 1pt = 4/3 px ≈ 0.3527mm |
+| px | 像素 | 1px ≈ 0.2646mm |
+*就目前来说，px是最常用的，其他单位用的很少*
+## 百分比
+百分比单位用于设置元素的宽度和高度。
+百分比单位是相对于父元素的宽度或高度的。
+```css
+div {
+  width: 50%;
+  height: 50%;
+}
+```
+*百分比单位用的也很少，因为它是相对于父元素的宽度或高度的，所以如果父元素的宽度或高度发生改变，那么子元素的宽度或高度也会发生改变。*
+## 图像
+*`<image>`*值类型用于图像为有效值的任何地方。它可以是一个通过 url() 函数指向的实际图像文件，也可以是一个渐变。
+```css
+div {
+  background-image: url('image.jpg');
+}
+```
+*它是一个外部资源，所以如果图像加载失败，那么元素就会显示为空白。*
+## 位置
+*`<position>`*值类型用于设置元素的位置。
+```css
+div {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+```
+*它是一个绝对位置，所以如果元素的位置发生改变，那么其他元素的位置也会发生改变。*
+# 设置尺寸
+## 宽度 单位：px、%、em、rem、vw、vh
+* px 像素
+* % 百分比
+* em 相对单位，相对于父元素的字体大小
+* rem 相对单位，相对于根元素的字体大小
+* vw 相对单位，相对于视口的宽度
+* vh 相对单位，相对于视口的高度
+## 高度 单位：px、%、em、rem、vw、vh
+* px 像素
+* % 百分比
+* em 相对单位，相对于父元素的字体大小
+* rem 相对单位，相对于根元素的字体大小
+* vw 相对单位，相对于视口的宽度
+* vh 相对单位，相对于视口的高度
+
+## 百分比
+*百分比在css中常用作宽度和高度的单位，是一种长度单位*
+
+## min- 和 max- 尺寸
+除了让万物都有一个确定的大小以外，我们可以让 CSS 给定一个元素的最大或最小尺寸。如果你有一个包含了变化容量的内容的盒子，而且你总是想让它至少有个确定的高度，你应该给它设置一个 min-height 属性。盒子就会一直保持大于这个最小高度，但是如果有比这个盒子在最小高度状态下所能容纳的更多内容，那么盒子就会变大。
+* min-width 和 min-height 用于设置元素的最小宽度和最小高度。
+* max-width 和 max-height 用于设置元素的最大宽度和最大高度。
+```css
+div {
+  min-width: 200px;
+  max-width: 500px;
+  min-height: 200px;
+  max-height: 500px;
+}
+```
+# 渐变背景
+```
+<div class="wrapper">
+  <div class="box a"></div>
+  <div class="box b"></div>
+</div>
+.wrapper {
+  display: flex;
+}
+
+.box {
+  width: 400px;
+  height: 80px;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  margin: 20px;
+}
+
+.a {
+  background-image: linear-gradient(
+    105deg,
+    rgb(0 249 255 / 100%) 39%,
+    rgb(51 56 57 / 100%) 96%
+  );
+}
+
+.b {
+  background-image: radial-gradient(
+    circle,
+    rgb(0 249 255 / 100%) 39%,
+    rgb(51 56 57 / 100%) 96%
+  );
+  background-size: 100px 50px;
+}
+```
+以上就是渐变背景的使用方法。
+# 多个背景图像
+* background-image 可以设置多个背景图像，用逗号隔开。*
+* 多个背景图像的位置可以用 background-position 来设置。*
+* 多个背景图像的重复方式可以用 background-repeat 来设置。*
+* 多个背景图像的大小可以用 background-size 来设置。*
+# 边框
+* 边框的宽度可以用 border-width 来设置。*
+* 边框的样式可以用 border-style 来设置。*
+* 边框的颜色可以用 border-color 来设置。*
+* 边框的圆角可以用 border-radius 来设置。*
+* 边框的阴影可以用 box-shadow 来设置。*
+* 边框的内边距可以用 padding 来设置。*
+* 边框的外边距可以用 margin 来设置。*
+* 边框的背景颜色可以用 background-color 来设置。*
+* 边框的可见性可以用 visibility 来设置。*
+* 边框的透明度可以用 opacity 来设置。*
+* 边框的层级可以用 z-index 来设置。*
+* 边框的定位可以用 position 来设置。*
+* 边框的显示方式可以用 display 来设置。*
+* 边框的浮动方式可以用 float 来设置。*
+* 边框的清除方式可以用 clear 来设置。*
+* 边框的合并方式可以用 border-collapse 来设置。*
+* 边框的间距方式可以用 border-spacing 来设置。*
+# 圆角  border-radius
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cssStudy</title>
+</head>
+<body>
+    <div class="box">
+        <h2>边框</h2>
+        <p>尝试对边框做出调整</p>
+    </div>
+<style>
+.box{
+    width: 500px;
+    height: 110px;
+    padding: 0.5em;
+    border: 10px solid red;
+    border-radius: 1em;
+    border-top-right-radius: 10% 30%;
+}
+</style>
+</body>
+</html>
+```
+示例中设置了所有四个角，然后更改右上角的值使之不同。
+以上例子是圆角的使用方法。
