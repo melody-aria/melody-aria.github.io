@@ -1,0 +1,273 @@
+export const metadata = {
+  title: 'css学习-第七天',
+  date: '2025-09-15',
+  description: '本文用于个人css的学习',
+  tags: [ 'css', '笔记'],
+  categories: ['知识','博客']
+}
+
+# 样式化链接
+ ## 链接状态
+ Link：有目的地的链接（即不只是一个具名锚点），使用 :link 伪类来应用样式。
+
+Visited：已访问过（存在于浏览器历史记录中）的链接，使用 :visited 伪类来应用样式。
+
+Hover：被用户鼠标指针悬停的链接，使用 :hover 伪类来应用样式。
+
+Focus：被选中的链接（比如通过键盘的 Tab 移动到这个链接，或者使用像 HTMLElement.focus() 这样的方法编程地聚焦链接），使用 :focus 伪类来应用样式。
+
+Active：激活（如点击）的链接，使用 :active 伪类来应用样式。
+ ## 默认样式
+ 默认链接具有以下属性：
+
+链接以下划线表示。
+未访问链接为蓝色。
+已访问链接为紫色。
+悬停链接时，鼠标指针会变成一个小手图标。
+聚焦链接的周围有一个轮廓——按下键盘上的制表符键，就能聚焦本页面上的链接。（在 Mac 上，需要使用 option + tab，或通过按下 Ctrl + F7 启用全键盘控制选项。
+活动链接为红色。尝试在点击链接时按住鼠标键。
+## 将样式应用到一些链接
+```
+<p>
+  有很多可用的浏览器，如 <a href="#">Mozilla Firefox</a>、<a href="#"
+    >Google Chrome</a
+  >
+  和 <a href="#">Microsoft Edge</a>。
+</p>
+
+
+a {
+}
+
+a:link {
+}
+
+a:visited {
+}
+
+a:focus {
+}
+
+a:hover {
+}
+
+a:active {
+}
+body {
+  width: 300px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  font-family: sans-serif;
+}
+
+p {
+  line-height: 1.4;
+}
+
+a {
+  outline-color: transparent;
+}
+
+a:link {
+  color: #6900ff;
+}
+
+a:visited {
+  color: #a5c300;
+}
+
+a:focus {
+  text-decoration: none;
+  background: #bae498;
+}
+
+a:hover {
+  text-decoration: none;
+  background: #cdfeaa;
+}
+
+a:active {
+  background: #6900ff;
+  color: #cdfeaa;
+}
+
+```
+
+# Web 字体
+ 使用font-family来控制字体
+# css布局
+## 正常布局流
+ 正常布局流就是对布局不进行任何改变，按照默认的方式进行布局。
+ ```
+ <p>I love my cat.</p>
+
+<ul>
+  <li>Buy cat food</li>
+  <li>Exercise</li>
+  <li>Cheer up friend</li>
+</ul>
+
+<p>The end!</p>
+ ```
+ 上例中，p、ul、li、p 元素都采用了正常布局流。
+ 正常布局流的工作原理是：
+ 1. 每个元素都在其包含块（container block）中。
+ 2. 每个元素都在其包含块中垂直排列。
+ 3. 每个元素的水平位置由其包含块的宽度和元素的宽度确定。
+ 4. 每个元素的垂直位置由其包含块的高度和元素的高度确定。
+ **注意，HTML 元素完全按照源码中出现的先后次序显示——第一个段落、无序列表、第二个段落。**
+
+ 下列布局技术会覆盖默认的布局行为：
+ 1. display 属性 — 标准的 value，比如block, inline 或者 inline-block 元素在正常布局流中的表现形式 (见 Types of CSS boxes). 接着是全新的布局方式，通过设置display的值，比如 CSS Grid 和 Flexbox.
+ 2. 浮动——应用 float 值，诸如 left 能够让块级元素互相并排成一行，而不是一个堆叠在另一个上面。
+ 3. 定位 — 允许你精准设置盒子中的盒子的位置，正常布局流中，默认为 static ，使用其他值会引起元素不同的布局方式，例如将元素固定到浏览器视口的左上角。
+ 4. 表格布局— 表格的布局方式可以用在非表格内容上，可以使用display: table和相关属性在非表元素上使用。
+ 5. 多列布局— 这个 Multi-column layout 属性可以让块按列布局，比如报纸的内容就是一列一列排布的
+## 弹性盒子
+  弹性盒子（flexbox）是一种一维布局模型，它可以让你在一个方向上（如水平或垂直）对齐和分布元素。
+  弹性盒子的工作原理是：
+  1. 父元素设置为 display: flex 或 display: inline-flex。
+  2. 子元素会自动成为弹性项目（flex item）。
+  3. 子元素可以设置 flex 属性来控制其在父元素中的位置和大小。
+  4. 子元素可以设置 order 属性来改变其在父元素中的顺序。
+  5. 子元素可以设置 align-self 属性来改变其在父元素中的对齐方式。
+  **所有项目都从容器的开始位置进行排列，排列成一行后，在尾部留下一片空白。**
+  ```
+  <div class="wrapper">
+  <div class="box1">One</div>
+  <div class="box2">Two</div>
+  <div class="box3">Three</div>
+</div>
+<style>
+.wrapper {
+  display: flex;
+}
+</style>
+  ```
+  上例中，wrapper 元素设置为 display: flex，box1、box2、box3 元素会自动成为弹性项目。在浏览器中显示为横向三个box。
+### 设置 flex 属性
+  弹性项目可以设置 flex 属性来控制其在父元素中的位置和大小。flex 属性可以设置为一个或两个值。
+  1. 一个值：flex-grow flex-shrink flex-basis
+  2. 两个值：flex-grow flex-shrink
+  3. 三个值：flex-grow flex-shrink flex-basis
+**作为一个简单的例子，我们可以在我们的所有子元素上添加flex 属性，并赋值为1，这会使得所有的子元素都伸展并填充容器，而不是在尾部留下空白，如果有更多空间，那么子元素们就会变得更宽，反之，他们就会变得更窄。除此之外，如果你在 HTML 标记中添加了一个新元素，那么它们也会变得更小，来为新元素创造空间——不管怎样，最终它们会调整自己直到占用相同宽度的空间。**
+
+## Grid 布局
+  网格布局（Grid layout）是一种二维布局模型，它可以让你在两个方向上（如水平和垂直）对齐和分布元素。
+  网格布局的工作原理是：
+  1. 父元素设置为 display: grid 或 display: inline-grid。
+  2. 子元素会自动成为网格项目（grid item）。
+  3. 子元素可以设置 grid-column 和 grid-row 属性来控制其在父元素中的位置和大小。
+  4. 子元素可以设置 order 属性来改变其在父元素中的顺序。
+  5. 子元素可以设置 align-self 属性来改变其在父元素中的对齐方式。
+  **所有项目都从容器的开始位置进行排列，排列成一行后，在尾部留下一片空白。**
+  ```
+  <div class="wrapper">
+  <div class="box1">One</div>
+  <div class="box2">Two</div>
+  <div class="box3">Three</div>
+</div>
+<style>
+.wrapper {
+  display: grid;
+}
+</style>
+  ```
+  上例中，wrapper 元素设置为 display: grid，box1、box2、box3 元素会自动成为网格项目。
+### 设置 grid-column 和 grid-row 属性
+  网格项目可以设置 grid-column 和 grid-row 属性来控制其在父元素中的位置和大小。
+  1. grid-column 属性：控制网格项目的水平位置和大小。
+  2. grid-row 属性：控制网格项目的垂直位置和大小。
+  3. grid-column-start 属性：控制网格项目的水平位置。
+  4. grid-column-end 属性：控制网格项目的水平位置。
+  5. grid-row-start 属性：控制网格项目的垂直位置。
+  6. grid-row-end 属性：控制网格项目的垂直位置。
+### 在网格内放置元素
+  网格项目可以设置 grid-column 和 grid-row 属性来控制其在父元素中的位置和大小。
+  1. grid-column 属性：控制网格项目的水平位置和大小。
+  2. grid-row 属性：控制网格项目的垂直位置和大小。
+  3. grid-column-start 属性：控制网格项目的水平位置。
+  4. grid-column-end 属性：控制网格项目的水平位置。
+  5. grid-row-start 属性：控制网格项目的垂直位置。
+  6. grid-row-end 属性：控制网格项目的垂直位置。
+  ```
+<div class="wrapper">
+  <div class="box1">One</div>
+  <div class="box2">Two</div>
+  <div class="box3">Three</div>
+</div>
+* {
+  box-sizing: border-box;
+}
+
+.wrapper > div {
+  border-radius: 5px;
+  background-color: rgb(207, 232, 220);
+  padding: 1em;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px;
+  grid-gap: 10px;
+}
+
+.box1 {
+  grid-column: 2 / 4;
+  grid-row: 1;
+}
+
+.box2 {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.box3 {
+  grid-row: 2;
+  grid-column: 3;
+}
+
+  ```
+  **gap (或旧版的 grid-gap) 属性的作用是：设置网格布局中行与行、列与列之间的间距，也就是我们常说的“沟槽”或“水槽” (Gutter)。**
+# 浮动
+把一个元素“浮动”(float) 起来，会改变该元素本身和在正常布局流（normal flow）中跟随它的其他元素的行为。这一元素会浮动到左侧或右侧，并且从正常布局流 (normal flow) 中移除，这时候其他的周围内容就会在这个被设置浮动 (float) 的元素周围环绕。
+
+float 属性有四个可能的值：
+
+left — 将元素浮动到左侧。
+right — 将元素浮动到右侧。
+none — 默认值，不浮动。
+inherit — 继承父元素的浮动属性。
+# 定位技术
+CSS定位（positioning）是一种强大的布局技术，它允许我们精确控制元素在页面上的位置。通过定位，我们可以将元素从其在正常布局流中的原始位置移动到任何我们想要的位置。
+
+虽然定位不适合用作主要的页面布局方式，但它在处理特定UI元素的位置调整时非常有价值。比如创建悬浮菜单、模态框等特殊交互效果时，定位就显得尤为重要。
+
+CSS提供了五种核心的定位方式：
+
+1. 静态定位（Static）
+- 这是元素的默认定位方式
+- 元素按照正常文档流进行排列
+- 此时设置top、right、bottom、left属性都不会产生效果
+
+2. 相对定位（Relative）
+- 相对于元素原本的位置进行偏移
+- 不会影响其他元素的布局
+- 常用于微调元素位置或作为绝对定位元素的参考点
+
+3. 绝对定位（Absolute）
+- 元素会被完全移出正常文档流
+- 相对于最近的已定位祖先元素（非static）进行定位
+- 如果找不到已定位的祖先元素，则相对于`<html>`定位
+- 适合创建弹出框、工具提示等覆盖型UI组件
+
+4. 固定定位（Fixed）
+- 相对于浏览器视口进行定位
+- 元素位置在页面滚动时保持不变
+- 常用于创建固定导航栏、返回顶部按钮等
+
+5. 粘性定位（Sticky）
+- 是相对定位和固定定位的混合
+- 在达到指定阈值前为相对定位
+- 达到阈值后转为固定定位
+- 适合实现滚动时的粘性头部效果
