@@ -1,0 +1,142 @@
+export const metadata = {
+  title: 'JavaScript学习-第二天',
+  date: '2025-09-24',
+  description: '本文用于个人JavaScript的学习',
+  tags: [ 'JavaScript', '笔记'],
+  categories: ['知识','博客']
+}
+
+# JavaScript 代码块
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript</title>
+</head>
+<body>
+    <h1>网页</h1>
+    <p id="demo">段落</p>
+    <div id="div">一个div</div>
+    <script>
+        document.getElementById("demo").innerHTML = "我的第一个 JavaScript 段落。";
+        document.getElementById("div").innerHTML = "这是div";
+    </script>
+</body>
+</html>
+```
+以上例子就是一个很简单的JavaScript代码块，它可以在网页中显示一个段落和一个div元素。
+# JavaScript 语句标识符
+| 语句 | 描述 |
+|------|------|
+| break | 用于跳出循环或switch语句。常用于循环体内部，立即终止当前循环。 |
+| catch | 与try配合使用的错误处理语句块。当try块中发生异常时，执行catch块中的代码。 |
+| continue | 跳过循环中的当前迭代，直接进入下一次循环。不会终止整个循环。 |
+| do...while | 先执行一次代码块，然后在条件为true时重复执行。至少会执行一次。 |
+| for | 创建一个计数循环，可指定初始值、条件和递增/递减步长。适用于明确循环次数的场景。 |
+| for...in | 遍历对象的可枚举属性或数组的索引。主要用于对象属性的遍历，不推荐用于数组。 |
+| function | 定义一个可重复使用的代码块。可以接收参数并返回值，是代码复用的基本单位。 |
+| if...else | 根据条件执行不同的代码块。可以有多个else if分支，实现多条件判断。 |
+| return | 结束函数执行并返回指定值。如果没有指定返回值，则返回undefined。 |
+| switch | 基于不同的条件值执行对应的代码块。适用于多分支条件判断，比多个if...else更清晰。 |
+| throw | 手动抛出异常，可以是任意类型的值。通常与try...catch配合使用。 |
+| try | 标记需要进行错误处理的代码块。如果发生错误，控制权会转移到catch块。 |
+| var | 声明变量。函数作用域，可以重复声明，有变量提升特性。建议使用let/const替代。 |
+| while | 当条件为true时重复执行代码块。如果初始条件为false，则一次都不会执行。 |
+# JavaScript 变量
+变量是用于存储数据值的容器。在JavaScript中，变量可以使用`var`、`let`或`const`关键字进行声明。
+## 变量的声明
+### var 关键字
+`var`关键字用于声明变量。它有函数作用域，意味着在函数内部声明的变量只能在函数内部访问。
+```
+var x = 10;
+```
+### let 关键字
+`let`关键字用于声明块级作用域的变量。它与`var`不同，`let`声明的变量只在其所在的代码块中有效。
+```
+let y = 20;
+```
+### const 关键字
+`const`关键字用于声明常量，其值在声明后不能被改变。`const`声明的变量也有块级作用域。
+```
+const z = 30;
+```
+## 变量的使用
+变量在声明后可以被赋值和使用。
+```
+x = 100; // 合法
+y = 200; // 合法
+z = 300; // 错误，z是一个常量，不能被重新赋值
+```
+## 变量的作用域
+变量的作用域决定了变量在代码中的可访问性。
+- 函数作用域：在函数内部声明的变量只能在函数内部访问。
+- 块级作用域：在`{}`内部声明的变量（如`let`和`const`）只能在该代码块内部访问。
+## 变量的提升
+`var`关键字声明的变量会发生变量提升，即变量可以在声明之前被访问，但是值为`undefined`。
+```
+console.log(a); // 输出 undefined
+var a = 10;
+```
+`let`和`const`关键字声明的变量不会发生变量提升，这意味着在声明之前访问这些变量会抛出错误。
+```
+console.log(b); // 错误，b未定义
+let b = 20;
+```
+# JavaScript 数据类型
+JavaScript 中的数据类型可以分为两大类：原始数据类型和引用数据类型。
+## 原始数据类型
+原始数据类型是指简单的数据类型，它们是不可变的，即一旦创建，就不能被修改。
+### 数字类型（Number）
+数字类型用于表示数值，包括整数和浮点数。
+```
+let a = 10; // 整数
+let b = 3.14; // 浮点数
+```
+### 字符串类型（String）
+字符串类型用于表示文本，由零个或多个字符组成。
+```
+let c = "Hello, World!";
+```
+### 布尔类型（Boolean）
+布尔类型用于表示逻辑值，只有两个可能的取值：`true`和`false`。
+```
+let d = true;
+let e = false;
+```
+### 空类型（Null）
+空类型表示一个空值，只有一个可能的取值：`null`。
+```
+let f = null;
+```
+### 未定义类型（Undefined）
+未定义类型表示一个未初始化的变量，只有一个可能的取值：`undefined`。
+
+# 使用 let 和 const (ES6)
+## let 关键字
+`let`关键字用于声明块级作用域的变量。与`var`不同，`let`声明的变量只在其所在的代码块中有效。
+```
+let x = 10;
+```
+## const 关键字
+`const`关键字用于声明常量，其值在声明后不能被改变。`const`声明的变量也有块级作用域。
+```
+const y = 20;
+```
+## 块级作用域
+`let`和`const`声明的变量只在其所在的代码块中有效。这意味着在`{}`内部声明的变量只能在该代码块内部访问。
+```
+{
+  let z = 30;
+  const w = 40;
+}
+console.log(z); // 错误，z未定义
+console.log(w); // 错误，w未定义
+```
+在 2015 年以前，我们使用 var 关键字来声明 JavaScript 变量。
+
+在 2015 后的 JavaScript 版本 (ES6) 允许我们使用 const 关键字来定义一个常量，使用 let 关键字定义的限定范围内作用域的变量。
+
+let
+let 是 ES6 引入的新变量声明方式，推荐使用。
