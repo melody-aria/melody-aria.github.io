@@ -1,0 +1,117 @@
+export const metadata = {
+  title: 'JavaScript学习-第二天',
+  date: '2025-09-25',
+  description: '本文用于个人JavaScript的学习',
+  tags: [ 'JavaScript', '笔记'],
+  categories: ['知识','博客']
+}
+
+# JavaScript 对象
+```
+var obj = {
+  name: '张三',
+  age: 18,
+  sex: '男'
+}
+```
+以上代码创建了一个对象 obj，它有三个属性：name、age 和 sex。
+```
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>js学习</title> 
+</head>
+<body>
+
+<p>创建 JavaScript 对象。</p>
+<p id="demo"></p>
+<script>
+var person = {
+    firstName : "John",
+    lastName  : "Doe",
+    age       : 50,
+    eyeColor  : "blue"
+};
+document.getElementById("demo").innerHTML =
+	person.firstName + " 现在 " + person.age + " 岁。";
+</script>
+
+</body>
+</html>
+```
+以上代码创建了一个对象 person，它有四个属性：firstName、lastName、age 和 eyeColor。并且使用getElementById("demo").innerHTML在页面上输出了John 现在 50 岁.
+# 对象方法
+对象方法是对象的一个属性，它的值是一个函数。
+```
+var obj = {
+  name: '张三',
+  age: 18,
+  sex: '男',
+  sayName: function() {
+    console.log(this.name)
+  }
+}
+```
+以上代码创建了一个对象 obj，它有四个属性：name、age、sex 和 sayName。sayName 是一个方法，它的作用是输出对象的 name 属性。
+```
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>js学习</title> 
+</head>
+<body>
+
+<p>创建 JavaScript 对象。</p>
+<p id="demo"></p>
+<script>
+var person = {
+    firstName : "John",
+    lastName  : "Doe",
+    age       : 50,
+    eyeColor  : "blue",
+    sayName : function() {
+        console.log(this.firstName + " " + this.lastName);
+    }
+};
+document.getElementById("demo").innerHTML =
+    person.firstName + " 现在 " + person.age + " 岁。";
+person.sayName();
+</script>
+
+</body>
+</html>
+```
+以上代码创建了一个对象 person，它有四个属性：firstName、lastName、age 和 sayName。sayName 是一个方法，它的作用是输出对象的 firstName 和 lastName 属性。
+
+# 访问对象方法
+要访问对象的方法，需要使用对象名后面跟着一个点号和方法名。
+```
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>js学习</title> 
+</head>
+<body>
+
+<p>创建和使用对象方法。</p>
+<p>对象方法作为一个函数定义存储在对象属性中。</p>
+<p id="demo"></p>
+<script>
+var person = {
+    firstName: "John",
+    lastName : "Doe",
+    id : 5566,
+    fullName : function() 
+	{
+       return this.firstName + " " + this.lastName;
+    }
+};
+document.getElementById("demo").innerHTML = person.fullName();
+</script>
+	
+</body>
+</html>
+```
