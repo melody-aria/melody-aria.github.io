@@ -1,0 +1,107 @@
+export const metadata = {
+  title: 'JavaScript学习-第四天',
+  date: '2025-09-26',
+  description: '本文用于个人JavaScript的学习',
+  tags: [ 'JavaScript', '笔记'],
+  categories: ['知识','博客']
+}
+
+# JavaScript 函数
+函数是 JavaScript 中的一种基本类型，它可以被定义为一个代码块，用于执行特定的任务。函数可以被调用多次，并且可以接收参数和返回值。
+```
+function functionName() {
+  // 函数体
+}
+```
+
+## 函数的参数
+函数可以接收参数，参数是在函数定义时指定的，参数可以是任意类型的变量。
+```
+function functionName(parameter1, parameter2) {
+  // 函数体
+}
+```
+## 函数的返回值
+函数可以返回一个值，返回值是在函数体中使用 return 语句指定的。
+```
+function functionName() {
+  return value;
+}
+```
+# 局部javascript变量
+在函数内部声明的变量是局部变量，只能在函数内部访问。
+```
+function functionName() {
+  var localVar = '局部变量';
+}
+```
+# 全局javascript变量
+在函数外部声明的变量是全局变量，在整个脚本中都可以访问。
+```
+var globalVar = '全局变量';
+```
+# 向未声明的 JavaScript 变量分配值
+如果向未声明的变量分配一个值，该变量将成为全局变量（如果在严格模式下，该变量将不会成为全局变量）。
+```
+function functionName() {
+  x = '全局变量';
+}
+```
+```
+var var1 = 1; // 不可配置全局属性
+var2 = 2; // 没有使用 var 声明，可配置全局属性
+
+console.log(this.var1); // 1
+console.log(window.var1); // 1
+console.log(window.var2); // 2
+
+delete var1; // false 无法删除
+console.log(var1); //1
+
+delete var2; 
+console.log(delete var2); // true
+console.log(var2); // 已经删除 报错变量未定义
+```
+## 严格模式
+严格模式 ('use strict';):
+如果你在代码文件的顶部写上 'use strict';，那么像 var2 = 2; 这样对未声明变量的赋值，会直接抛出一个错误，从而从根本上杜绝了这种意外创建全局属性的行为。
+
+在严格模式下，不能使用未声明的变量。
+```
+"use strict";
+x = 3.14;   // 这将导致错误
+```
+在严格模式下直接使用未声明的变量会报错。
+
+# JavaScript 作用域
+作用域是指变量和函数的可访问范围。在 JavaScript 中，有两种作用域：全局作用域和局部作用域。
+## 全局作用域
+在全局作用域中声明的变量和函数可以在整个脚本中访问。
+```
+var globalVar = '全局变量';
+function globalFunction() {
+  console.log('全局函数');
+}
+```
+## 局部作用域
+在函数内部声明的变量和函数只能在函数内部访问。
+```
+function functionName() {
+  var localVar = '局部变量';
+  function localFunction() {
+    console.log('局部函数');
+  }
+}
+```
+# 局部变量能否被外部作用域访问
+在 JavaScript 中，函数内部的局部变量通常不可以直接被外部作用域访问，但有几种方式可以将函数内的局部变量暴露给外部作用域，具体如下：
+## 通过全局对象：
+在函数内部，可以通过将局部变量赋值给 window 对象的属性来使其成为全局可访问的。例如，使用 window.a = a; 语句，可以在函数外部通过 window.a 访问到这个局部变量的值。
+## 定义全局变量：
+在函数内部不使用 var、let 或 const 等关键字声明变量时，该变量会被视为全局变量，从而可以在函数外部访问。但这种做法通常不推荐，因为它可能导致意外的副作用和代码难以维护。
+## 返回值：
+可以通过在函数内部使用 return 语句返回局部变量的值，然后在函数外部接收这个返回值。这样，虽然局部变量本身不会被暴露，但其值可以通过函数调用传递到外部。
+## 闭包：
+JavaScript 中的闭包特性允许内部函数访问外部函数的局部变量。即使外部函数执行完毕后，其局部变量仍然可以被内部函数引用。
+## 属性和方法：
+定义在全局作用域中的变量和函数都会变成 window 对象的属性和方法，因此可以在调用时省略 window，直接使用变量名或函数名。
