@@ -1,0 +1,102 @@
+export const metadata = {
+  title: 'JavaScript学习-第五天',
+  date: '2025-09-28',
+  description: '本文用于个人JavaScript的学习',
+  tags: [ 'JavaScript', '笔记'],
+  categories: ['知识','博客']
+}
+
+# JavaScript 一些基本的语法
+## if条件语句
+条件语句用于根据不同的条件执行不同的代码块。
+```
+if (condition) {
+  // 条件为真时执行的代码
+} else {
+  // 条件为假时执行的代码
+}
+```
+## else if语句
+else if 语句用于在多个条件中执行不同的代码块。
+```
+if (condition1) {
+  // 条件1为真时执行的代码
+} else if (condition2) {
+  // 条件2为真时执行的代码
+} else {
+  // 所有条件都为假时执行的代码
+}
+```
+## switch语句
+switch 语句用于根据不同的条件执行不同的代码块。
+```
+switch (expression) {
+  case value1:
+    // 执行代码块 1
+    break;
+  case value2:
+    // 执行代码块 2
+    break;
+  default:
+    // 默认执行代码块
+}
+```
+## 三元运算符
+三元运算符是一种简洁的条件语句，用于根据条件返回不同的值。
+```
+var result = (condition) ? value1 : value2;
+```
+以上例子中判断condition是否为真，如果为真则返回value1，否则返回value2。
+## 循环语句
+循环语句用于重复执行一段代码，直到满足某个条件。
+```
+for (var i = 0; i < 10; i++) {
+  // 重复执行的代码
+}
+```
+以上例子中，循环会执行10次，每次执行时i的值会增加1。
+## while循环语句
+while 循环语句用于重复执行一段代码，直到满足某个条件。
+```
+while (condition) {
+  // 重复执行的代码
+}
+```
+以上例子中，循环会重复执行，直到condition为假时停止。
+## do...while循环语句
+do...while 循环语句与 while 循环语句类似，不同之处在于它会先执行一次循环体，然后判断条件是否为真。
+```
+do {
+  // 重复执行的代码
+} while (condition);
+```
+以上例子中，循环会先执行一次，然后判断condition是否为真，如果为真则继续执行，否则停止循环。
+## for循环
+for 循环语句用于重复执行一段代码，直到满足某个条件。
+```
+for (var i = 0; i < 10; i++) {
+  // 重复执行的代码
+}
+```
+以上例子中，循环会执行10次，每次执行时i的值会增加1。
+## 标签
+标签是 JavaScript 中的一种特殊语法，用于标识循环或 switch 语句中的某个位置。
+```
+label:
+  // 代码块
+```
+以上例子中，label 是一个标签，用于标识代码块的位置。
+
+# typeof 运算符
+typeof 运算符用于返回变量的数据类型。
+```
+typeof 123 // "number"
+typeof '123' // "string"
+typeof false // "boolean"
+typeof undefined // "undefined"
+typeof null // "object"
+typeof {} // "object"
+typeof [] // "object"
+typeof function() {} // "function"
+```
+以上例子中，typeof 运算符会返回 variable 变量的数据类型。
