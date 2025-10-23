@@ -1,0 +1,97 @@
+export const metadata = {
+  title: '力扣刷题-整数反转',
+  date: '2025-10-15',
+  description: '本文用于个人刷题记录',
+  tags: [ '刷题', '力扣'],
+  categories: ['技术','知识']
+}
+
+# 题目原型
+给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
+
+如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+
+假设环境不允许存储 64 位整数（有符号或无符号）。
+ 
+
+示例 1：
+
+输入：x = 123
+输出：321
+示例 2：
+
+输入：x = -123
+输出：-321
+示例 3：
+
+输入：x = 120
+输出：21
+示例 4：
+
+输入：x = 0
+输出：0
+ 
+
+提示：
+
+-2^31 < = x < = 2^31 - 1
+
+# 我的思路
+我觉得这道题目的主要难点就是去判断反转后的整数是否超过了32位有符号整数的范围。
+
+# 代码实现
+```
+class Solution {
+    public int reverse(int x) {
+        int reversedNum = 0;
+        while (x != 0) {
+            int lastDigest = 0;
+            //取个位数
+            lastDigest = x % 10;
+            //除以10拿到新的数
+            x = x / 10;
+            //判断当前反转的数是否超出了范围
+            if (reversedNum > Integer.MAX_VALUE / 10 || reversedNum == Integer.MAX_VALUE / 10 && lastDigest > 7) {
+                return 0;
+            }
+            if (reversedNum < Integer.MIN_VALUE / 10 || reversedNum == Integer.MIN_VALUE / 10 && lastDigest < -8) {
+                return 0;
+            }
+            reversedNum = reversedNum * 10 + lastDigest;
+        }
+        return reversedNum;
+    }
+}
+```
+## 以上代码的逻辑
+在每一次循环中，我们要做的是一个不可分割的、严格按顺序的四步操作“菜谱”：
+
+菜谱名称：安全地添加一位数字
+
+第一步：准备材料
+
+从 x 中取出个位数 lastDigit。
+
+int lastDigit = x % 10;
+
+第二步：安全检查 (先伸头看路)
+
+在做任何乘法之前，用我们已经有的、绝对安全的 reversedNum 去和“安全警戒线”(Integer.MAX_VALUE / 10)做比较。
+
+if (reversedNum > Integer.MAX_VALUE / 10 || ...)
+
+如果发现下一步有危险，立刻停止所有操作，直接 return 0。
+
+第三步：执行操作 (确认安全后，才迈步)
+
+只有在安全检查通过后，我们才去放心地执行乘法和加法。
+
+reversedNum = reversedNum * 10 + lastDigit;
+
+第四步：清理现场
+
+削减 x，为下一次循环做准备。
+
+x = x / 10;
+
+这四个步骤的顺序是固定的，不能颠倒。 我们的“判断”不是一个独立的动作，它是嵌入在“反转”这个大动作里的、必须最先执行的安全检查环节。
