@@ -1,0 +1,87 @@
+export const metadata = {
+  title: '力扣刷题-盛最多水容器',
+  date: '2025-11-04',
+  description: '本文用于个人刷题记录',
+  tags: [ '刷题', '力扣'],
+  categories: ['技术','知识']
+}
+
+# 题目原型
+给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+
+找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+返回容器可以储存的最大水量。
+
+说明：你不能倾斜容器。
+# 示例
+示例 1：
+输入：[1,8,6,2,5,4,8,3,7]
+输出：49 
+解释：图中垂直线代表输入数组 [1,8,6,2,5,4,8,3,7]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 49。
+示例 2：
+
+输入：height = [1,1]
+输出：1
+# 提示：
+n == height.length
+2 ≤ n ≤ 10⁵
+0 ≤ height[i] ≤ 10⁴
+# 代码实现
+方法一：双循环直接遍历
+```
+class Solution {
+    public int maxArea(int[] height) {
+        //本质上就是在数组中找到最大的两个索引i j  求 （j-i）* min(height[i],height[j])
+        int maxarea = 0;
+        int n = height.length;
+        for(int i = 0; i < n;i++){
+            for(int j = 0;j < n;){
+                //计算宽度
+                int width = j-i;
+                //计算高度
+                int h = Math.min(height[i],height[j]);
+                //计算面积
+                int currentArea = h * width;
+                if(currentArea > maxarea){
+                    maxarea = currentArea;
+                }
+            }
+        }
+        return maxarea;
+    }
+}
+```
+这个解法是没问题的，但是会超时。
+解法二：双指针
+```
+class Solution {
+    public int maxArea(int[] height) {
+        int maxArea = 0;
+        int left = 0;//左指针
+        int right = height.length - 1;//右指针
+
+        //进行循环 直到两个指针相遇
+        while(left < right){
+            //计算当前的高度
+            int h = Math.min(height[left], height[right]);
+            //计算宽度
+            int width = right - left ;
+            //计算面积
+            int currentArea = h * width;
+            //更新最大面积
+            maxArea = Math.max(currentArea,maxArea);
+            //移动指针
+            if(height[left] < height[right]){
+                left++;
+            }else{
+                right--;
+            }
+        }
+        return maxArea;
+    }
+}
+```
+
+# 我的分析
+ 实际上这道题目就是在求最大的矩形面积，只是这个矩形的高度是由数组中的两个元素决定的，而宽度是由两个元素的索引差决定的。
