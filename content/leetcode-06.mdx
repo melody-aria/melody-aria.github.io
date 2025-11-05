@@ -1,0 +1,60 @@
+export const metadata = {
+  title: '力扣刷题-最长公共前缀',
+  date: '2025-11-05',
+  description: '本文用于个人刷题记录',
+  tags: [ '刷题', '力扣'],
+  categories: ['技术','知识']
+}
+
+# 题目原型
+编写一个函数来查找字符串数组中的最长公共前缀。
+
+如果不存在公共前缀，返回空字符串 ""。
+# 示例
+示例 1：
+输入：strs = ["flower","flow","flight"]
+输出："fl"
+示例 2：
+输入：strs = ["dog","racecar","car"]
+输出：""
+解释：输入不存在公共前缀。
+# 提示：
+1 ≤ strs.length ≤ 200
+0 ≤ strs[i].length ≤ 200
+strs[i] 如果非空，则仅由小写英文字母组成
+# 代码实现
+```
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        //判断strs是否为空
+        if(strs == null || strs.length == 0)
+        {
+            return null;
+        }
+        //如果只有一个字符串那这个字符串就是最长公共前缀
+        if(strs.length == 1){
+            return strs[0];
+        }
+        //外层循环利用第一个字符串作为基准去比较
+        for(int i = 0; i < strs[0].length();i++){
+            char c = strs[0].charAt(i);
+            //内层循环 用这个基准的字符 去检查其他的字符
+            for(int j = 0; j < strs.length;j++){
+                if(i == strs[j].length() || strs[j].charAt(i) != c ){
+                    return strs[0].substring(0,i);
+                }
+            }
+        }
+        return strs[0];
+    }
+}
+```
+# 我的分析
+ 求出公共的前缀，就是去比较每个字符串有没有相同的字符。
+ 我们可以用第一个字符串作为基准，去比较其他的字符串是否有相同的字符。
+ 如果有相同的字符，就继续比较下一个字符，直到找到不同的字符或者比较完所有的字符。
+ 如果没有相同的字符，就返回空字符串。
+
+ 还有一种方法是一个字符一个字符进行比较，用第一个字符串的第一个字符去比较其他字符串的第一个字符，直到找到不同的字符或者比较完所有的字符。
+ 然后用第二个字符串的第一个字符去比较其他字符串的第一个字符，直到找到不同的字符或者比较完所有的字符。
+ 依次类推，直到找到不同的字符或者比较完所有的字符。
