@@ -1,0 +1,113 @@
+export const metadata = {
+  title: '力扣刷题-电话号码的字母组合',
+  date: '2025-11-11',
+  description: '本文用于个人刷题记录',
+  tags: [ '刷题', '力扣'],
+  categories: ['技术','知识']
+}
+
+# 题目原型
+给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+
+给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+# 示例
+示例 1：
+
+输入：digits = "23"
+输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
+示例 2：
+
+输入：digits = "2"
+输出：["a","b","c"]
+# 提示：
+1 ≤ digits.length ≤ 4
+digits[i] 是范围 ['2', '9'] 的一个数字。
+# 代码实现
+```
+class Solution {
+    //创建一个list存放结果
+    List<String> result = new ArrayList<>();
+    //映射
+    String[] mapping = {
+        "",//0
+        "",//1
+        "abc",
+        "def",
+        "ghi",
+        "jkl",
+        "mno",
+        "pqrs",
+        "tuv",
+        "wxyz"    
+    } ;
+    public List<String> letterCombinations(String digits) {
+        //非空校验
+        if(digits == null || digits.length() == 0){
+            return result;
+        }
+        //开始回溯
+        backtrack(digits, 0, new StringBuffer());
+        
+        return result;
+    }
+    private void backtrack(String digits,int index,StringBuffer path){
+        if(path.length() == digits.length()){
+            result.add(path.toString());
+            return;
+        }
+        // --- 回溯三部曲 ---
+        
+        // 1. 找到当前要处理的数字，和它对应的字母
+        //    digits.charAt(index) -> '2'
+        //    '2' - '0' -> 2 (int)
+        //    mapping[2] -> "abc"
+        String currentLeters = mapping[digits.charAt(index) - '0'];
+        for(int i = 0; i < currentLeters.length(); i++){
+            char choice = currentLeters.charAt(i);
+
+            //  “选择 (Choose)”
+            //     把 'a' 添加到路径中
+            path.append(choice);
+            // “探索 (Explore)”
+            //     递归调用，去处理下一个数字 (index + 1)
+            backtrack(digits,index+1,path);
+
+            // “撤销 (Unchoose / Backtrack)”
+            //     把刚才添加的 'a' 删掉，这样 for 循环
+            //     下一次迭代时，才能去尝试 'b'
+            path.deleteCharAt(path.length() - 1);
+        }
+    }
+}
+```
+# StringBuffer
+StringBuffer 类代表一个可变的字符序列。
+StringBuffer 类的对象可以被多次修改，并且不产生新的未使用对象。
+
+## StringBuilder 常用速查
+
+> 无需死记硬背，掌握以下 7 个核心操作即可。
+
+| 方法 | 作用 | 典型示例 |
+| ---- | ---- | -------- |
+| `sb.append(...)` | 末尾追加（最常用） | `sb.append("A").append(123);` |
+| `sb.toString()` | 转不可变字符串（最常用） | `String s = sb.toString();` |
+| `sb.insert(offset, ...)` | 指定位置插入 | `sb.insert(0, "Hello ");` |
+| `sb.delete(start, end)` | 删除区间 `[start, end)` | `sb.delete(0, 5);` |
+| `sb.deleteCharAt(index)` | 删除单个字符 | `sb.deleteCharAt(sb.length() - 1);` |
+| `sb.reverse()` | 内容反转 | `sb.reverse();` |
+| `sb.length()` | 当前字符数量 | `int n = sb.length();` |
+
+# 我的分析
+这个题目用到的一个核心的方法是回溯法。也是递归的一种。
+怎么实现回溯法？
+1. 定义一个递归函数，函数参数包括当前处理的数字索引和当前路径。
+2. 在递归函数中，先判断当前路径的长度是否等于输入字符串的长度。如果是，将当前路径加入结果列表并返回。
+3. 否则，获取当前索引对应的数字所对应的字母。
+4. 遍历这些字母，将每个字母加入路径中，递归调用函数处理下一个数字。
+5. 递归返回后，将加入的字母从路径中移除，这就是回溯的过程。
+为什么要回溯？
+因为我们是要找到所有的字母组合，所以需要回溯到上一个状态，尝试其他的字母。
+有没有其他的实现方法？
+1. 可以使用迭代的方法来实现。
+2. 可以使用动态规划的方法来实现。
