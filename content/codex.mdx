@@ -1,0 +1,86 @@
+export const metadata = {
+  title: 'Codex 的安装与使用',
+  date: '2026-06-01',
+  description: '一篇关于 Codex、ccx、cc-switch 与 codex++ 的基础安装与配置教程',
+  tags: [ 'codex', 'codex安装'],
+  categories: ['技术','知识']
+}
+
+# Codex 的安装与使用
+
+这篇文章记录一下 Codex 相关工具的基础安装和配置流程，适合第一次接触这套工具的同学参考。
+
+## 安装 Codex 桌面版
+
+Codex 桌面版可以直接前往官网下载安装，按照默认流程完成安装即可。
+
+## 准备需要用到的软件
+
+在开始配置前，建议先准备好下面 3 个工具：
+
+- `ccx`
+  https://github.com/BenedictKing/ccx/releases
+- `cc-switch`
+  https://github.com/farion1231/cc-switch
+- `codex++`
+  https://github.com/BigPizzaV3/CodexPlusPlus
+
+## 安装并配置 ccx
+
+首先创建一个 `.env` 文件，并写入以下配置：
+
+```env
+PROXY_ACCESS_KEY=123456
+PORT=3000
+ENABLE_WEB_UI=TRUE
+APP_UI_LANGUAGE=zh-CN
+```
+
+创建完成后，将 `.env` 文件放到 `ccx` 启动程序所在的同一目录中，然后启动 `ccx`。
+
+## 进入 ccx 管理页面
+
+启动完成后，在浏览器中访问：
+
+`http://localhost:3000`
+
+登录后即可进入 `ccx` 的管理页面，并在设置中找到 `Codex` 相关配置。
+
+![ccx管理页面](/codex1.png)
+
+## 安装 cc-switch
+
+下载 `cc-switch` 的安装程序后，双击运行并按提示完成安装。
+
+安装完成后，即可进入 `cc-switch` 的管理页面。
+
+## 获取 DeepSeek API Key
+
+先登录 DeepSeek 官网：
+
+https://platform.deepseek.com
+
+进入后点击 `API Key`，然后创建一个新的 `API Key`，后续配置时会用到。
+
+## 在 ccx 中配置 API Key
+
+进入 `ccx` 管理页面后，打开设置页面，填写对应的 `API Key` 信息并保存。
+
+![ccx配置apikey](/codex2.png)
+![ccx配置apikey](/codex3.png)
+![ccx配置apikey](/codex4.png)
+
+## 在 cc-switch 中配置 API Key
+
+进入 `cc-switch` 管理页面后，打开设置页面，填写对应配置并保存即可。
+
+![cc-switch配置apikey](/switch1.png)
+![cc-switch配置apikey](/switch2.png)
+
+## 安装 codex++
+
+`codex++` 直接下载安装即可。
+
+安装完成后，进入 `codex++` 管理页面，并导入 `cc-switch` 的配置。
+
+![codex++导入cc-switch配置](/codex++1.png)
